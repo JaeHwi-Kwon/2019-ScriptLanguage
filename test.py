@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
 from tkinter import ttk
-from urllib.parse import urlparse
 from urllib.request import urlopen,Request
-from urllib.parse import urlencode, quote_plus
-from xml.dom.minidom import parseString
+from urllib.parse import quote_plus
 from xml.etree import ElementTree
+
+import TimeTable
 
 import http.client
 
@@ -47,6 +47,12 @@ class App:
         scrollbar.config(command=self.listBox.yview)
 
 
+        #오른쪽 프레임
+        #시간표
+        self.timebox = Text(frameTime)
+        self.timebox.pack(fill=BOTH)
+
+
         self.stationList = []
 
 
@@ -69,12 +75,23 @@ class App:
         namelist = dataTree.getiterator('item')
         for item in namelist:
             name = item.findtext('subwayStationName')
+            id = item.findtext('subwayStationId')
             self.listBox.insert(END, name)
-            self.stationList.append(name)
+            self.stationList.append((name,id))
 
     def SelectList(self, event):    #목록 더블클릭 했을때
         a = self.listBox.curselection()[0]
         print(self.stationList[a])
         #여기다 오른쪽 탭 갱신하는 함수 호출하면 돼
+        self.Updata_Timetable()
+
+
+    def Updata_Timetable(self):
+        table = TimeTable.GetTimeTable(self.stationList[self.listBox.curselection()[0]][1],'01','U')
+
+        self.timebox.delete(1.0,END)
+        for i in table:
+            self.timebox.insert(END,i+'\n')
+
 
 App()
