@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 from urllib.request import urlopen,Request
 from urllib.parse import urlencode, quote_plus
 from xml.dom.minidom import parseString
+from xml.etree import ElementTree
 
 import http.client
 
@@ -43,6 +44,8 @@ class App:
         self.listBox.pack(side=LEFT)
         scrollbar.config(command=self.listBox.yview)
 
+        self.xmldata = None
+
 
         win.mainloop()
 
@@ -56,16 +59,14 @@ class App:
         req.get_method = lambda: 'GET'
         res_body = urlopen(req).read()
         print(res_body)
-        xmldata = parseString(res_body)
+        dataTree = ElementTree.fromstring(res_body)
+
 
         self.listBox.delete(0, int(self.listBox.size())-1)
-
-#        list = xmldata.childNodes
-#        stations = list[1].childNodes
-#        for s in stations:
-#            if s.nodeName == 'item':
-#                self.listBox.insert(0, s.firstChild.nodeValue)
-
+        namelist = dataTree.getiterator('item')
+        for item in namelist:
+            name = item.findtext('subwayStationName')
+            self.listBox.insert(END, name)
 
 
 App()
