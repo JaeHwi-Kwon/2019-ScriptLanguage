@@ -1,4 +1,4 @@
-# -*- coding: utf-9 -*-
+# -*- coding: utf-8 -*-
 from tkinter import *
 from tkinter import ttk
 from urllib.parse import urlparse
@@ -47,10 +47,10 @@ class App:
         win.mainloop()
 
     def Search(self):
-        sttkwrd = self.input.get()
+        keyword = self.input.get()
+        key = 'e20GlP6AHkpkkdAr0AYT50r6zfv%2Fgj8KNbomL7RzhiSCSxpFb0vhZgYU7DADHoto16Zxg7xK01%2BCd69yoAssag%3D%3D'
         url = 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getKwrdFndSubwaySttnList'
-        queryParams = '?' + urlencode({quote_plus('ServiceKey'): '	yYG2IhrTJ8VGFAjuP8SXOXHnxdu7B9XGBRzAz3Uxn2rNdzpkeyOi85h8hKIbTVo2%2FdjNEQnPWm7Oipb5mxEzEg%3D%3D',
-                                       quote_plus('subwayStationName'): sttkwrd})
+        queryParams = '?' + 'ServiceKey='+ key +'&subwayStationName=' + quote_plus(keyword)
 
         req = Request(url+queryParams)
         req.get_method = lambda: 'GET'
