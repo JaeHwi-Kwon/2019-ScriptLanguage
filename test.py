@@ -1,3 +1,4 @@
+# -*- coding: utf-9 -*-
 from tkinter import *
 from tkinter import ttk
 from urllib.parse import urlparse
@@ -5,6 +6,7 @@ from urllib.request import urlopen,Request
 from urllib.parse import urlencode, quote_plus
 from xml.dom.minidom import parseString
 
+import http.client
 
 
 class App:
@@ -45,8 +47,10 @@ class App:
         win.mainloop()
 
     def Search(self):
-        url= 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getKwrdFndSubwaySttnList'
-        queryParams = '?' + urlencode({quote_plus('ServiceKey'): 'e20GlP6AHkpkkdAr0AYT50r6zfv%2Fgj8KNbomL7RzhiSCSxpFb0vhZgYU7DADHoto16Zxg7xK01%2BCd69yoAssag%3D%3D', quote_plus('subwayStationName'): '서울'})
+        sttkwrd = self.input.get()
+        url = 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getKwrdFndSubwaySttnList'
+        queryParams = '?' + urlencode({quote_plus('ServiceKey'): '	yYG2IhrTJ8VGFAjuP8SXOXHnxdu7B9XGBRzAz3Uxn2rNdzpkeyOi85h8hKIbTVo2%2FdjNEQnPWm7Oipb5mxEzEg%3D%3D',
+                                       quote_plus('subwayStationName'): sttkwrd})
 
         req = Request(url+queryParams)
         req.get_method = lambda: 'GET'
@@ -56,11 +60,12 @@ class App:
 
         self.listBox.delete(0, int(self.listBox.size())-1)
 
-        list = xmldata.childNodes
-        #stops = list[1].childNodes
-        #for s in stops:
-        #    if s.nodeName == 'item':
-        #        self.listBox.insert(0, s.firstChild.nodeValue)
+#        list = xmldata.childNodes
+#        stations = list[1].childNodes
+#        for s in stations:
+#            if s.nodeName == 'item':
+#                self.listBox.insert(0, s.firstChild.nodeValue)
+
 
 
 App()
