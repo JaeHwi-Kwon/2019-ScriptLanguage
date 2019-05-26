@@ -28,10 +28,10 @@ class App:
         frameList.pack(side=BOTTOM)
         frameMap = Frame(win, borderwidth=5, relief=RIDGE)
         framePlase = Frame(win, borderwidth=5, relief=RIDGE)
-        frameTime = Frame(win, borderwidth=5, relief=RIDGE)
+        self.frameTime = Frame(win, borderwidth=5, relief=RIDGE)
         Tap.add(frameMap, text='    지도    ')
         Tap.add(framePlase, text='  주변검색  ')
-        Tap.add(frameTime, text='   시간표   ')
+        Tap.add(self.frameTime, text='   시간표   ')
 
 
         #왼쪽 프레임
@@ -41,17 +41,14 @@ class App:
         Button(frameSearch,text='검색',command=self.Search).pack()
         scrollbar = Scrollbar(frameList)
         self.listBox = Listbox(frameList,selectmode='extended', width=40,height=20,yscrollcommand=scrollbar.set)
-        scrollbar.pack(side=RIGHT,fill=BOTH)
+        scrollbar.pack(side=RIGHT,fill='y')
         self.listBox.pack(side=LEFT)
         self.listBox.bind('<Double-Button-1>',self.SelectList)
         scrollbar.config(command=self.listBox.yview)
 
 
         #오른쪽 프레임
-        #시간표
-        self.timebox = Text(frameTime)
-        self.timebox.pack(fill=BOTH)
-
+        TimeTable.initTimeTable(self.frameTime) #시간표 초기화
 
         self.stationList = []
 
@@ -87,11 +84,6 @@ class App:
 
 
     def Updata_Timetable(self):
-        table = TimeTable.GetTimeTable(self.stationList[self.listBox.curselection()[0]][1],'01','U')
-
-        self.timebox.delete(1.0,END)
-        for i in table:
-            self.timebox.insert(END,i+'\n')
-
+        TimeTable.UpdateTimeTable(self.frameTime, self.stationList[self.listBox.curselection()[0]][1])
 
 App()
