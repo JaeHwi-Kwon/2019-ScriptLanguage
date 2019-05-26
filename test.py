@@ -10,6 +10,9 @@ import TimeTable
 import http.client
 
 
+v = ['1호선','2호선','3호선','4호선','5호선']
+
+
 class App:
 
     def __init__(self):
@@ -36,9 +39,13 @@ class App:
 
         #왼쪽 프레임
         self.input = Entry(frameSearch, width=30)
-        self.input.pack(side=LEFT)
+        self.input.grid(row=0, column=0)
         self.input.bind('<Return>', self.Search)
-        Button(frameSearch,text='검색',command=self.Search).pack()
+        Button(frameSearch,text='검색',command=self.Search).grid(row=0, column=1)
+        self.linebox = ttk.Combobox(frameSearch, values=v, state='readonly', width=8)
+        self.linebox.grid(row=1, column=0)
+        Button(frameSearch, text='노선 선택', command=self.SelectLine).grid(row=1,column=1)
+
         scrollbar = Scrollbar(frameList)
         self.listBox = Listbox(frameList,selectmode='extended', width=40,height=20,yscrollcommand=scrollbar.set)
         scrollbar.pack(side=RIGHT,fill='y')
@@ -69,11 +76,13 @@ class App:
 
 
         self.listBox.delete(0, END)
+        self.stationList.clear()
         namelist = dataTree.getiterator('item')
         for item in namelist:
             name = item.findtext('subwayStationName')
+            line = item.findtext('subwayRouteName')
             id = item.findtext('subwayStationId')
-            self.listBox.insert(END, name)
+            self.listBox.insert(END, line + '   ' + name)
             self.stationList.append((name,id))
 
     def SelectList(self, event):    #목록 더블클릭 했을때
@@ -81,6 +90,28 @@ class App:
         print(self.stationList[a])
         #여기다 오른쪽 탭 갱신하는 함수 호출하면 돼
         self.Updata_Timetable()
+
+    def SelectLine(self, event=None):
+        i = self.linebox.get()
+        print(i)
+        key = '655746787474657936305a4861426a'
+        url = 'http://openAPI.seoul.go.kr:8088/'+key +'/xml/SearchSTNBySubwayLineService/' +'1/100/'+ str(v.index(i)+1) +'/'
+
+        req = Request(url)
+        req.get_method = lambda: 'GET'
+        res_body = urlopen(req).read()
+        print(res_body)
+        dataTree = ElementTree.fromstring(res_body)
+
+        self.listBox.delete(0, END)
+        self.stationList.clear()
+        namelist = dataTree.getiterator('row')
+        for item in namelist:
+            name = item.findtext('STATION_NM')
+            id = item.findtext('FR_CODE')
+            self.listBox.insert(END, i + '   ' + name)
+            self.stationList.append((name, 'SUB'+id))
+
 
 
     def Updata_Timetable(self):
