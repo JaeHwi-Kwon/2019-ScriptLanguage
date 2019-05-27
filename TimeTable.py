@@ -22,7 +22,7 @@ lastmail = None #메일주소
 
 d = {'평일':'01', '토요일':'02', '일요일':'03'}
 w = {'상행':'U', '하행':'D'}
-mails = ['@gmail.com','@maver.com','@daum.net']
+mails = ['@gmail.com','@naver.com','@daum.net']
 
 ###############
 
@@ -53,7 +53,6 @@ def GetTimeTable(ID, day, way):
 
     return table
 
-
 def initTimeTable(frame):
     global timebox, daysbox, waybox
 
@@ -75,9 +74,6 @@ def initTimeTable(frame):
     waybox = Combobox(frame, values=v, width=7, state='readonly')
     waybox.place(x=200, y=20)
     waybox.current(0)
-
-
-
 
 def UpdateTimeTable(station):
     global timebox, now_station
@@ -105,6 +101,8 @@ def PageDown():
         page -= 1
     UpdateTimeTable(now_station)
 
+
+
 def MailWindow():
     global mailadd, lastmail
 
@@ -114,19 +112,41 @@ def MailWindow():
 
     Label(win, text='이메일 주소').pack(fill=BOTH)
     Button(win, text='시간표 보내기', command=SendMail).pack(side=BOTTOM)
-    mailadd = Entry(win, width=15)
+    mailadd = Entry(win, width=20)
     mailadd.pack(side=LEFT)
-    lastmail = Combobox(win, width=10, values=mails)
+    lastmail = Combobox(win, width=10, values=mails, state='readonly')
     lastmail.pack(side=LEFT)
+    lastmail.current(0)
 
 def SendMail():
     import smtplib
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
+    import tkinter.messagebox
+
+    fromadd = 'teyrunia@gmail.com'
+    toadd = mailadd.get() + lastmail.get()
+
     msg = MIMEMultipart('alternative')
     msg['Subject'] = now_station + '시간표입니다'
-    msg['To'] = mailadd.get() + lastmail.get()
-    msg['From'] = 'teyrunia@gmail.com'
+    msg['To'] = toadd
+    msg['From'] = fromadd
+
+    txt = timebox.get(1.0, END)
+    tablePart = MIMEText(txt, 'plain', _charset='UTF-8')
+    msg.attach(tablePart)
+
+    try:
+        s = smtplib.SMTP('smtp.gmail.com', '587')
+        s.ehlo()
+        s.starttls()
+        s.ehlo()
+        s.login(fromadd, 'sc897799')
+        s.sendmail(fromadd, [toadd], msg.as_string())
+        s.close()
+        tkinter.messagebox.showinfo('전송 성공', '메일을 성공적으로 보냈습니다')
+    except BaseException as e:
+        tkinter.messagebox.showerror('전송 실패','메일을 보내는데 실패하였습니다')
 
 
 
