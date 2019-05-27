@@ -80,7 +80,7 @@ class App:
         self.resultFrame =Frame(framePlace, borderwidth=5, relief=RIDGE)
         self.resultFrame.grid(row=1, column=0)
         for i in range(10):
-            self.NsearchButtons.append(Button(self.resultFrame,text=''))
+            self.NsearchButtons.append(Button(self.resultFrame,text='',width=62))
             self.NsearchButtons[i].pack()
 
         self.stationList = []
