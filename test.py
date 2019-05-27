@@ -6,6 +6,7 @@ from urllib.parse import quote_plus
 from xml.etree import ElementTree
 
 import TimeTable
+import NaverSearch
 
 import http.client
 
@@ -57,9 +58,12 @@ class App:
         #오른쪽 프레임
         TimeTable.initTimeTable(self.frameTime) #시간표 초기화
 
-        self.Nsearch = Entry(framePlace)
-        self.Nsearch.pack(side=LEFT)
-
+        self.NsearchButtons = []
+        self.Nsearch = Entry(framePlace,width=64)
+        self.Nsearch.grid(row=0,column=0)
+        Button(framePlace, text='검색', command=self.NaverSearchfunc).grid(row=0,column=1)
+        self.resultFrame =Frame(framePlace, borderwidth=5, relief=RIDGE)
+        self.resultFrame.grid(row=1, column=0)
 
         self.stationList = []
 
@@ -87,7 +91,7 @@ class App:
             line = item.findtext('subwayRouteName')
             id = item.findtext('subwayStationId')
             self.listBox.insert(END, line + '   ' + name)
-            self.stationList.append((name,id))
+            self.stationList.append((name, id))
 
     def SelectList(self, event):    #목록 더블클릭 했을때
         a = self.listBox.curselection()[0]
@@ -116,6 +120,12 @@ class App:
             self.listBox.insert(END, i + '   ' + name)
             self.stationList.append((name, 'SUB'+id))
 
+    def NaverSearchfunc(self):
+        keyword = self.Nsearch.get()
+        searchResult = NaverSearch.getNaverSearchData(keyword)
+        for items in searchResult:
+            text = ('이름 : ' + items['title'] +'\n설명 : ' + items['description'] + '\n전화 번호 : '
+                    + items['telephone'] + '\n주소 : ' + items['address'])
 
 
     def Updata_Timetable(self):

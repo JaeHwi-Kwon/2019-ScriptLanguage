@@ -29,7 +29,6 @@ def connectOPpenApiServer():
 def extractwithBS4(strXml):
     elements = []
     parsedxml=bs(strXml,'lxml-xml')
-    print(parsedxml)
     result = parsedxml.find_all('item')
     for item in result:
         title = item.find('title')
@@ -37,10 +36,6 @@ def extractwithBS4(strXml):
         telephone = item.find('telephone')
         address = item.find('address')
         mapx, mapy = item.find('mapx'), item.find('mapy')
-        print(title)
-        print(description)
-        print(telephone)
-        print(address)
         if len(title.text) > 0:
             elements.append({'title': title.text, 'description': description.text, 'telephone': telephone.text,
                              'address': address.text, 'mapx': mapx.text, 'mapy': mapy.text})
@@ -61,7 +56,7 @@ def getLocalDataFromKeyword(keyword):
     global server, conn, client_id, client_secret
     if conn == None:
         connectOPpenApiServer()
-    url = userURLBuilder('/v1/search/local.xml',display='10',start='1',query=encText)
+    url = userURLBuilder('/v1/search/local.xml',display='10',start='1',query=keyword)
     conn.request('GET', url, None, {'X-Naver-Client-Id':client_id,'X-Naver-Client-Secret': client_secret})
     req = conn.getresponse()
     print(req.status)
@@ -77,11 +72,11 @@ def getLocalDataFromKeyword(keyword):
 def getNaverSearchData(searchkwrd):
     encText = urllib.parse.quote(searchkwrd)
     datalist= getLocalDataFromKeyword(encText)
+    print(datalist)
     return datalist
 
-while True:
-    searchkwrd = input('키워드 입력 : ')
-    encText = urllib.parse.quote(searchkwrd)
-    datalist= getLocalDataFromKeyword(encText)
-    print()
-    print(datalist)
+#while True:
+#    searchkwrd = input('키워드 입력 : ')
+#    datalist= getNaverSearchData(searchkwrd)
+#    print()
+#    print(datalist)
