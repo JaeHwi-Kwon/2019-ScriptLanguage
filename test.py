@@ -64,6 +64,9 @@ class App:
         Button(framePlace, text='검색', command=self.NaverSearchfunc).grid(row=0,column=1)
         self.resultFrame =Frame(framePlace, borderwidth=5, relief=RIDGE)
         self.resultFrame.grid(row=1, column=0)
+        for i in range(10):
+            self.NsearchButtons.append(Button(self.resultFrame,text=''))
+            self.NsearchButtons[i].pack()
 
         self.stationList = []
 
@@ -123,9 +126,10 @@ class App:
     def NaverSearchfunc(self):
         keyword = self.Nsearch.get()
         searchResult = NaverSearch.getNaverSearchData(keyword)
-        for items in searchResult:
-            text = ('이름 : ' + items['title'] +'\n설명 : ' + items['description'] + '\n전화 번호 : '
-                    + items['telephone'] + '\n주소 : ' + items['address'])
+        for i in range(10):
+            text = ('이름 : ' + searchResult[i]['title'] +'\n설명 : ' + searchResult[i]['description'] + '\n전화 번호 : '
+                    + searchResult[i]['telephone'] + '\n주소 : ' + searchResult[i]['address'])
+            self.NsearchButtons[i].configure(text=text)
 
 
     def Updata_Timetable(self):
