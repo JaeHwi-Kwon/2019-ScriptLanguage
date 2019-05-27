@@ -30,10 +30,10 @@ class App:
         frameSearch.pack(side=TOP, fill=BOTH)
         frameList.pack(side=BOTTOM)
         frameMap = Frame(win, borderwidth=5, relief=RIDGE)
-        framePlase = Frame(win, borderwidth=5, relief=RIDGE)
+        framePlace = Frame(win, borderwidth=5, relief=RIDGE)
         self.frameTime = Frame(win, borderwidth=5, relief=RIDGE)
         Tap.add(frameMap, text='    지도    ')
-        Tap.add(framePlase, text='  주변검색  ')
+        Tap.add(framePlace, text='  주변검색  ')
         Tap.add(self.frameTime, text='   시간표   ')
 
 
@@ -56,6 +56,10 @@ class App:
 
         #오른쪽 프레임
         TimeTable.initTimeTable(self.frameTime) #시간표 초기화
+
+        self.Nsearch = Entry(framePlace)
+        self.Nsearch.pack(side=LEFT)
+
 
         self.stationList = []
 
@@ -115,6 +119,6 @@ class App:
 
 
     def Updata_Timetable(self):
-        TimeTable.UpdateTimeTable(self.frameTime, self.stationList[self.listBox.curselection()[0]][1])
+        TimeTable.UpdateTimeTable(self.stationList[self.listBox.curselection()[0]][1])
 
 App()
