@@ -62,7 +62,7 @@ def initTimeTable(frame):
     buttonframe.pack(side=BOTTOM)
     Button(buttonframe, width=5, text='->', command=PageUp).pack(side=RIGHT,fill=BOTH)
     Button(buttonframe, width=5, text='<-', command=PageDown).pack(fill=BOTH)
-    timebox = Text(frame, state='disabled')
+    timebox = Text(frame, state='disabled', width=50)
     timebox.pack(side=BOTTOM)
 
 

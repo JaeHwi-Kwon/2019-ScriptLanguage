@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
+from tkinter.font import *
 from tkinter import ttk
 from urllib.request import urlopen,Request
 from urllib.parse import quote_plus
@@ -11,7 +12,13 @@ import NaverSearch
 import http.client
 
 
+#############################
+
 v = ['1호선','2호선','3호선','4호선','5호선']
+
+
+#############################
+
 
 
 class App:
@@ -20,19 +27,27 @@ class App:
         win = Tk()
         win.geometry("800x600")
         win.resizable(False, False)
+        win.configure(bg='azure')
+
+        Titlefont = Font(family='맑은 고딕', size=25, weight='bold')
+        controler = ttk.Style()
+        controler.configure('TNotebook.Tab', font=('맑은 고딕', '15', 'bold'))
+        controler.configure('TNotebook', background='azure')
+
 
         #전체 틀 초기화
         Tap = ttk.Notebook(win, width=500,height=600)
         Tap.pack(side=RIGHT)
-        frameLeft = Frame(win)
+        frameLeft = Frame(win,bg='azure')
+        Label(frameLeft, text='여기가 어디역', font=Titlefont, height=3).pack(side=TOP)
         frameLeft.pack(side=LEFT, fill=BOTH, padx=5, pady=5)
         frameSearch = Frame(frameLeft,borderwidth=5, relief=RIDGE)
-        frameList = Frame(frameLeft,borderwidth=5, relief=RIDGE)
+        frameList = Frame(frameLeft,borderwidth=5, bg='azure')
         frameSearch.pack(side=TOP, fill=BOTH)
         frameList.pack(side=BOTTOM)
-        frameMap = Frame(win, borderwidth=5, relief=RIDGE)
-        framePlace = Frame(win, borderwidth=5, relief=RIDGE)
-        self.frameTime = Frame(win, borderwidth=5, relief=RIDGE)
+        frameMap = Frame(win, borderwidth=5, relief=SUNKEN)
+        framePlace = Frame(win, borderwidth=5, relief=SUNKEN)
+        self.frameTime = Frame(win, borderwidth=5, relief=SUNKEN)
         Tap.add(frameMap, text='    지도    ')
         Tap.add(framePlace, text='  주변검색  ')
         Tap.add(self.frameTime, text='   시간표   ')
@@ -40,12 +55,12 @@ class App:
 
         #왼쪽 프레임
         self.input = Entry(frameSearch, width=30)
-        self.input.grid(row=0, column=0)
+        self.input.grid(row=1, column=0)
         self.input.bind('<Return>', self.Search)
-        Button(frameSearch,text='검색',command=self.Search).grid(row=0, column=1)
+        Button(frameSearch,text='검색',command=self.Search).grid(row=1, column=1)
         self.linebox = ttk.Combobox(frameSearch, values=v, state='readonly', width=8)
-        self.linebox.grid(row=1, column=0)
-        Button(frameSearch, text='노선 선택', command=self.SelectLine).grid(row=1,column=1)
+        self.linebox.grid(row=2, column=0)
+        Button(frameSearch, text='노선 선택', command=self.SelectLine).grid(row=2,column=1)
 
         scrollbar = Scrollbar(frameList)
         self.listBox = Listbox(frameList,selectmode='extended', width=40,height=20,yscrollcommand=scrollbar.set)
