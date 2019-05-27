@@ -25,29 +25,6 @@ def connectOPpenApiServer():
     conn = HTTPSConnection(server)
     conn.set_debuglevel(1)
 
-def extractSearchData(strXml):
-    from xml.etree import ElementTree
-    tree = ElementTree.fromstring(strXml)
-    print(strXml)
-    elements = []
-    #엘리먼트 가져오기
-    print('item 엘리먼트 리스트 추출')
-    itemElements = tree.getiterator('item')
-    for item in itemElements:
-        title = item.find('title')
-        description = item.find('description')
-        telephone = item.find('telephone')
-        address = item.find('address')
-        mapx, mapy = item.find('mapx'), item.find('mapy')
-        print(title)
-        print(description)
-        print(telephone)
-        print(address)
-        if len(title.text) > 0:
-            elements.append({'title': title.text, 'description': description.text, 'telephone': telephone.text,
-                    'address': address.text, 'mapx': mapx.text, 'mapy': mapy.text})
-        print(elements)
-        return elements
 
 def extractwithBS4(strXml):
     elements = []
@@ -88,11 +65,15 @@ def getLocalDataFromKeyword(keyword):
         print('Local data download complete!')
         decoded_data = req.read().decode('utf-8')
         return extractwithBS4(decoded_data)
-        #return extractSearchData(decoded_data)
     else:
         print('Error Code' + req.status)
         return None
 
+
+def getNaverSearchData(searchkwrd):
+    encText = urllib.parse.quote(searchkwrd)
+    datalist= getLocalDataFromKeyword(encText)
+    return datalist
 
 while True:
     searchkwrd = input('키워드 입력 : ')
