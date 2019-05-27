@@ -3,6 +3,7 @@ import os
 import sys
 import urllib.request
 from http.client import HTTPSConnection
+from bs4 import BeautifulSoup as bs
 
 conn = None
 client_id = 'xLNuUi5YIoKlaW3aytaj'
@@ -24,15 +25,13 @@ def connectOPpenApiServer():
     conn = HTTPSConnection(server)
     conn.set_debuglevel(1)
 
-def extractSearchData(strXml):
-    from xml.etree import ElementTree
-    tree = ElementTree.fromstring(strXml)
-    print(strXml)
-    #엘리먼트 가져오기
-    print('item 엘리먼트 리스트 추출')
-    itemElements = tree.getiterator('item')
-    print(*itemElements)
-    for item in itemElements:
+
+def extractwithBS4(strXml):
+    elements = []
+    parsedxml=bs(strXml,'lxml-xml')
+    print(parsedxml)
+    result = parsedxml.find_all('item')
+    for item in result:
         title = item.find('title')
         description = item.find('description')
         telephone = item.find('telephone')
@@ -43,25 +42,42 @@ def extractSearchData(strXml):
         print(telephone)
         print(address)
         if len(title.text) > 0:
-            return {'title': title.text, 'description': description.text, 'telephone': telephone.text,
-                    'address': address.text, 'mapx': mapx.text, 'mapy': mapy.text}
+            elements.append({'title': title.text, 'description': description.text, 'telephone': telephone.text,
+                             'address': address.text, 'mapx': mapx.text, 'mapy': mapy.text})
+    elements = deleteTags(elements)
+    return elements
+
+def deleteTags(set):
+    for item in set:
+        item['title'] = item['title'].replace('<b>', '')
+        item['title'] = item['title'].replace('</b>',  '')
+        item['description'] = item['description'].replace('<b>', '')
+        item['description'] = item['description'].replace('</b>',  '')
+        item['address'] = item['address'].replace('<b>', '')
+        item['address'] = item['address'].replace('</b>', '')
+    return set
 
 def getLocalDataFromKeyword(keyword):
-    global server,conn, client_id,client_secret
+    global server, conn, client_id, client_secret
     if conn == None:
         connectOPpenApiServer()
     url = userURLBuilder('/v1/search/local.xml',display='10',start='1',query=encText)
-    conn.request('GET',url,None,{'X-Naver-Client-Id':client_id,'X-Naver-Client-Secret':client_secret})
+    conn.request('GET', url, None, {'X-Naver-Client-Id':client_id,'X-Naver-Client-Secret': client_secret})
     req = conn.getresponse()
     print(req.status)
     if int(req.status == 200):
         print('Local data download complete!')
         decoded_data = req.read().decode('utf-8')
-        return extractSearchData(decoded_data)
+        return extractwithBS4(decoded_data)
     else:
         print('Error Code' + req.status)
         return None
 
+
+def getNaverSearchData(searchkwrd):
+    encText = urllib.parse.quote(searchkwrd)
+    datalist= getLocalDataFromKeyword(encText)
+    return datalist
 
 while True:
     searchkwrd = input('키워드 입력 : ')
