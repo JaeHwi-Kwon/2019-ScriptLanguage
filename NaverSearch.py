@@ -51,6 +51,10 @@ def deleteTags(set):
     for item in set:
         item['title'] = item['title'].replace('<b>', '')
         item['title'] = item['title'].replace('</b>',  '')
+        item['description'] = item['description'].replace('<b>', '')
+        item['description'] = item['description'].replace('</b>',  '')
+        item['address'] = item['address'].replace('<b>', '')
+        item['address'] = item['address'].replace('</b>', '')
     return set
 
 def getLocalDataFromKeyword(keyword):
