@@ -8,6 +8,7 @@ from xml.etree import ElementTree
 
 import TimeTable
 import NaverSearch
+import NaverMaps
 import Map
 
 import http.client
@@ -51,9 +52,11 @@ class App:
         frameSearch.pack(side=TOP, fill=BOTH)
         frameList.pack(side=BOTTOM)
         self.frameMap = Frame(win, borderwidth=5)
+        self.frameNMaps = Frame(win,borderwidth=5)
         self.framePlace = Frame(win, borderwidth=5)
         self.frameTime = Frame(win, borderwidth=5)
-        Tap.add(self.frameMap, text='    지도    ')
+        Tap.add(self.frameMap, text='   노선도   ')
+        Tap.add(self.frameNMaps, text='    지도    ')
         Tap.add(self.framePlace, text='  주변검색  ')
         Tap.add(self.frameTime, text='   시간표   ')
 
@@ -77,6 +80,7 @@ class App:
 
         #오른쪽 프레임
         TimeTable.initTimeTable(self.frameTime) #시간표 초기화
+        NaverMaps.NMapInit(self.frameNMaps)
         NaverSearch.NSearchInit(self.framePlace)
         Map.InitMapPage(self.frameMap)
 

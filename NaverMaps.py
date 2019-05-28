@@ -8,16 +8,16 @@ from io import BytesIO
 
 from tkinter import *
 
-#values
+#values start
 conn = None
 client_id = 'zcm64uebro'
 client_secret = 'Xfz9zRHcqSuvlCko2ggLQw3FoOYVYNRIOpMOrrxW'
 server = 'https://naveropenapi.apigw.ntruss.com'
 CRS = 'NHN:128'
-Height = 300
-Width = 300
+Height = 550
+Width = 485
 LEVEL = 16
-#values
+#values end
 
 
 def userURLBuilder(url,**user):
@@ -34,7 +34,7 @@ def connectOPpenApiServer():
 
 
 def getMapDataFromCoordinate(x, y):
-    coordinate = str(mapx) + ',' + str(mapy)
+    coordinate = str(x) + ',' + str(y)
     global server, conn, client_id, client_secret, CRS, Height, Width, LEVEL
     url = userURLBuilder('https://naveropenapi.apigw.ntruss.com/map-static/v2/raster', crs=CRS, h=str(Height), w=str(Width),
                          level=str(LEVEL), center=coordinate)
@@ -53,14 +53,25 @@ def getMapDataFromCoordinate(x, y):
         return None
 
 
-mapx = 310269
-mapy = 551875
-dataimg = getMapDataFromCoordinate(mapx, mapy)
-window = Tk()
+def NMapInit(frameName):
+    mapx = 310269
+    mapy = 551875
+    dataimg = getMapDataFromCoordinate(mapx, mapy)
+    img = Img.open(BytesIO(dataimg))
+    NMapimage = ImageTk.PhotoImage(img)
+    label = Label(frameName,width=Width,height=Height)
+    label.image = NMapimage
+    label.configure(image=NMapimage)
+    label.place(x=0,y=0)
 
-img = Img.open(BytesIO(dataimg))
-image = ImageTk.PhotoImage(img)
-label = Label(window, image=image)
-label.pack()
+#mapx = 310269
+#mapy = 551875
+#dataimg = getMapDataFromCoordinate(mapx, mapy)
+#window = Tk()
 
-window.mainloop()
+#img = Img.open(BytesIO(dataimg))
+#image = ImageTk.PhotoImage(img)
+#label = Label(window, image=image)
+#label.pack()
+
+#window.mainloop()
