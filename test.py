@@ -46,10 +46,10 @@ class App:
         frameSearch.pack(side=TOP, fill=BOTH)
         frameList.pack(side=BOTTOM)
         frameMap = Frame(win, borderwidth=5, relief=SUNKEN)
-        framePlace = Frame(win, borderwidth=5, relief=SUNKEN)
+        self.framePlace = Frame(win, borderwidth=5, relief=SUNKEN)
         self.frameTime = Frame(win, borderwidth=5, relief=SUNKEN)
         Tap.add(frameMap, text='    지도    ')
-        Tap.add(framePlace, text='  주변검색  ')
+        Tap.add(self.framePlace, text='  주변검색  ')
         Tap.add(self.frameTime, text='   시간표   ')
 
 
@@ -72,16 +72,8 @@ class App:
 
         #오른쪽 프레임
         TimeTable.initTimeTable(self.frameTime) #시간표 초기화
+        NaverSearch.NSearchInit(self.framePlace)
 
-        self.NsearchButtons = []
-        self.Nsearch = Entry(framePlace,width=64)
-        self.Nsearch.grid(row=0,column=0)
-        Button(framePlace, text='검색', command=self.NaverSearchfunc).grid(row=0,column=1)
-        self.resultFrame =Frame(framePlace, borderwidth=5, relief=RIDGE)
-        self.resultFrame.grid(row=1, column=0)
-        for i in range(10):
-            self.NsearchButtons.append(Button(self.resultFrame,text='',width=62))
-            self.NsearchButtons[i].pack()
 
         self.stationList = []
 
@@ -137,14 +129,6 @@ class App:
             id = item.findtext('FR_CODE')
             self.listBox.insert(END, i + '   ' + name)
             self.stationList.append((name, 'SUB'+id))
-
-    def NaverSearchfunc(self):
-        keyword = self.Nsearch.get()
-        searchResult = NaverSearch.getNaverSearchData(keyword)
-        for i in range(10):
-            text = ('이름 : ' + searchResult[i]['title'] +'\n설명 : ' + searchResult[i]['description'] + '\n전화 번호 : '
-                    + searchResult[i]['telephone'] + '\n주소 : ' + searchResult[i]['address'])
-            self.NsearchButtons[i].configure(text=text)
 
 
     def Updata_Timetable(self):
