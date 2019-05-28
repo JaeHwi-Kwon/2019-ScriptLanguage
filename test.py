@@ -28,37 +28,41 @@ class App:
         win = Tk()
         win.geometry("800x600")
         win.resizable(False, False)
-        win.configure(bg='azure')
+        win.configure(bg='SeaGreen3')
 
-        Titlefont = Font(family='맑은 고딕', size=25, weight='bold')
-        controler = ttk.Style()
-        controler.configure('TNotebook.Tab', font=('맑은 고딕', '15', 'bold'))
-        controler.configure('TNotebook', background='azure')
+        Titlefont = Font(family='맑은 고딕', size=20, weight='bold')
+        style = ttk.Style()
+        style.theme_create("my", settings={
+            "TNotebook": {"configure": { 'background':'SeaGreen3'}},
+            "TNotebook.Tab": {"configure": {"background": 'SeaGreen2', 'font':('맑은 고딕', '15', 'bold')},
+                        "map": {"background": [("selected", 'DarkOrange1')]}}})
+
+        style.theme_use("my")
 
 
         #전체 틀 초기화
         Tap = ttk.Notebook(win, width=500,height=600)
         Tap.pack(side=RIGHT)
-        frameLeft = Frame(win,bg='azure')
+        frameLeft = Frame(win,bg='SeaGreen3')
         Label(frameLeft, text='여기가 어디역', font=Titlefont, height=3).pack(side=TOP)
         frameLeft.pack(side=LEFT, fill=BOTH, padx=5, pady=5)
-        frameSearch = Frame(frameLeft,borderwidth=5, relief=RIDGE)
+        frameSearch = Frame(frameLeft, bg='SeaGreen3')
         frameList = Frame(frameLeft,borderwidth=5, bg='azure')
         frameSearch.pack(side=TOP, fill=BOTH)
         frameList.pack(side=BOTTOM)
-        self.frameMap = Frame(win, borderwidth=5, relief=SUNKEN, bg='azure')
-        self.framePlace = Frame(win, borderwidth=5, relief=SUNKEN)
-        self.frameTime = Frame(win, borderwidth=5, relief=SUNKEN)
+        self.frameMap = Frame(win, borderwidth=5)
+        self.framePlace = Frame(win, borderwidth=5)
+        self.frameTime = Frame(win, borderwidth=5)
         Tap.add(self.frameMap, text='    지도    ')
         Tap.add(self.framePlace, text='  주변검색  ')
         Tap.add(self.frameTime, text='   시간표   ')
 
 
         #왼쪽 프레임
-        self.input = Entry(frameSearch, width=30)
+        self.input = Entry(frameSearch, width=24)
         self.input.grid(row=1, column=0)
         self.input.bind('<Return>', self.Search)
-        Button(frameSearch,text='검색',command=self.Search).grid(row=1, column=1)
+        Button(frameSearch,text='   검색   ',command=self.Search).grid(row=1, column=1)
         self.linebox = ttk.Combobox(frameSearch, values=v, state='readonly', width=8)
         self.linebox.grid(row=2, column=0)
         Button(frameSearch, text='노선 선택', command=self.SelectLine).grid(row=2,column=1)
