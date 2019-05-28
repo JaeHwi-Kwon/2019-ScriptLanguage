@@ -55,6 +55,7 @@ def extractwithBS4(strXml):
             elements.append({'title': title.text, 'description': description.text, 'telephone': telephone.text,
                              'address': address.text, 'mapx': mapx.text, 'mapy': mapy.text})
     elements = deleteTags(elements)
+#    elements = AllignTxtOnButton(elements)
     return elements
 
 
@@ -66,6 +67,24 @@ def deleteTags(set):
         item['description'] = item['description'].replace('</b>',  '')
         item['address'] = item['address'].replace('<b>', '')
         item['address'] = item['address'].replace('</b>', '')
+    return set
+
+
+def AllignTxtOnButton(set):     #글자들을 전부 좌측 정렬하기 위함.
+    txtlen=0
+    for item in set:
+        if len(item['title']) > txtlen:
+            txtlen = len(item['title'])
+        if len(item['description']) > txtlen:
+            txtlen = len(item['description'])
+        if len(item['telephone']) > txtlen:
+            txtlen = len(item['telephone'])
+        if len(item['address']) > txtlen:
+            txtlen = len(item['address'])
+        item['title'] += '  '*(txtlen - len(item['title']))
+        item['description'] += '  ' * (txtlen - len(item['description']))
+        item['telephone'] += '  ' * (txtlen - len(item['telephone']))
+        item['address'] += '  ' * (txtlen - len(item['address']))
     return set
 
 
