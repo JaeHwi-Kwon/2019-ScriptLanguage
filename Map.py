@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter.font import *
 from PIL import Image, ImageTk
 
 
@@ -21,8 +22,10 @@ def InitMapPage(frame):
 
     img.bind_all("<Key>", move)
 
-    Button(frame, text=' + ', command=sizeUp).pack(side=RIGHT, anchor='s')
-    Button(frame, text=' - ', command=sizeDown).pack(side=RIGHT, anchor='s')
+    buttonfont = Font(family='맑은 고딕', size=12, weight='bold')
+
+    Button(frame, text=' ＋ ',font=buttonfont, bg='DarkOrange1', command=sizeUp).pack(side=RIGHT, anchor='s')
+    Button(frame, text=' － ',font=buttonfont, bg='DarkOrange1', command=sizeDown).pack(side=RIGHT, anchor='s')
 
 def UpdateMapPage():
     global img

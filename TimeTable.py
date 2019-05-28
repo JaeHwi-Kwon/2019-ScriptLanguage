@@ -5,7 +5,7 @@ from urllib.parse import quote_plus
 from xml.etree import ElementTree
 
 from tkinter import *
-from tkinter.ttk import *
+from tkinter import ttk
 
 
 
@@ -63,18 +63,18 @@ def initTimeTable(frame):
 
     buttonframe = Frame(frame)
     buttonframe.pack(side=BOTTOM)
-    Button(buttonframe, width=5, text='->', command=PageUp).pack(side=RIGHT,fill=BOTH)
-    Button(buttonframe, width=5, text='<-', command=PageDown).pack(fill=BOTH)
-    timebox = Text(frame, state='disabled', width=50)
+    Button(buttonframe, width=5, text='->',bg='DarkOrange1', command=PageUp).pack(side=RIGHT,fill=BOTH)
+    Button(buttonframe, width=5, text='<-',bg='DarkOrange1', command=PageDown).pack(fill=BOTH)
+    timebox = Text(frame, state='disabled', width=50, height=28)
     timebox.pack(side=BOTTOM)
 
 
     v = ['평일', '토요일', '일요일']
-    daysbox = Combobox(frame, values=v, width=7, state='readonly')
+    daysbox = ttk.Combobox(frame, values=v, width=7, state='readonly')
     daysbox.place(x=100, y=20)
     daysbox.current(0)
     v = ['상행', '하행']
-    waybox = Combobox(frame, values=v, width=7, state='readonly')
+    waybox = ttk.Combobox(frame, values=v, width=7, state='readonly')
     waybox.place(x=200, y=20)
     waybox.current(0)
 
@@ -117,7 +117,7 @@ def MailWindow():
     Button(win, text='시간표 보내기', command=SendMail).pack(side=BOTTOM)
     mailadd = Entry(win, width=20)
     mailadd.pack(side=LEFT)
-    lastmail = Combobox(win, width=10, values=mails, state='readonly')
+    lastmail = ttk.Combobox(win, width=10, values=mails, state='readonly')
     lastmail.pack(side=LEFT)
     lastmail.current(0)
 
