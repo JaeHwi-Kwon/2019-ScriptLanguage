@@ -16,7 +16,8 @@ server = 'https://naveropenapi.apigw.ntruss.com'
 CRS = 'NHN:128'
 Height = 550
 Width = 485
-LEVEL = 16
+LEVEL = 14
+label = []
 #values end
 
 
@@ -53,9 +54,20 @@ def getMapDataFromCoordinate(x, y):
         return None
 
 
+def NMapRender(x,y):
+    global label
+    mapx, mapy = x,y
+    dataimg = getMapDataFromCoordinate(mapx, mapy)
+    img = Img.open(BytesIO(dataimg))
+    NMapimage = ImageTk.PhotoImage(img)
+    label.image = NMapimage
+    label.configure(image=NMapimage)
+
 def NMapInit(frameName):
-    mapx = 310269
-    mapy = 551875
+    global label
+    #초기값은 산기대
+    mapx = 287975
+    mapy = 527209
     dataimg = getMapDataFromCoordinate(mapx, mapy)
     img = Img.open(BytesIO(dataimg))
     NMapimage = ImageTk.PhotoImage(img)

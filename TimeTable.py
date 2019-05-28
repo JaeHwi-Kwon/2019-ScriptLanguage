@@ -131,7 +131,7 @@ def SendMail():
     toadd = mailadd.get() + lastmail.get()
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = now_station + '시간표입니다'
+    msg['Subject'] = now_station + 'timetable'
     msg['To'] = toadd
     msg['From'] = fromadd
 

@@ -4,6 +4,7 @@ import sys
 import urllib.request
 from http.client import HTTPSConnection
 from bs4 import BeautifulSoup as bs
+import NaverMaps
 
 from tkinter import *
 
@@ -24,7 +25,7 @@ Nsearch = None
 NSearchButtons = []
 NSearchResultTxt = []
 scrollvalue = 0
-
+searchResult = []
 #tkinter values end
 
 
@@ -112,6 +113,18 @@ def getNaverSearchData(searchkwrd):
     return datalist
 
 
+def getXYandSentToNMap(text):
+    global searchResult
+    strs = []
+    strs = text.split(' ')
+    strs[0] = strs[0].replace('[', '')
+    strs[0] = strs[0].replace(']', '')
+    num = int(strs[0])
+    x = int(searchResult[num]['mapx'])
+    y = int(searchResult[num]['mapy'])
+    NaverMaps.NMapRender(x,y)
+
+
 def NSearchInit(frameName):
     global Nsearch, NSearchButtons
     Nsearch = Entry(frameName, width=64)
@@ -120,7 +133,8 @@ def NSearchInit(frameName):
     resultFrame = Frame(frameName, borderwidth=5, relief=RIDGE)
     resultFrame.grid(row=1, column=0)
     for i in range(7):
-        NSearchButtons.append(Button(resultFrame, text='', width=62))
+        NSearchButtons.append(Button(resultFrame, text='', width=62,
+                                     command=lambda: getXYandSentToNMap(NSearchButtons[i]['text'])))
         NSearchButtons[i].pack()
     Button(frameName, command=ScrollUp, text='▲').place(x=460, y=200)
     Button(frameName, command=ScrollDown, text='▼').place(x=460, y=300)
@@ -136,7 +150,7 @@ def clamp(min,x,max):   #최대, 최소값으로 제한하는 함수
 
 
 def ScrollUp():
-    global scrollvalue,NSearchResultTxt
+    global scrollvalue, NSearchResultTxt
     scrollvalue -= 1
     scrollvalue = clamp(0, scrollvalue, 13)
     for i in range(7):
@@ -152,17 +166,20 @@ def ScrollDown():
 
 
 def NaverSearchfunc():
-    global Nsearch, NSearchResultTxt, scrollvalue
+    global Nsearch, NSearchResultTxt, scrollvalue, searchResult
     NSearchResultTxt = []
     scrollvalue = 0
     keyword = Nsearch.get()
     searchResult = getNaverSearchData(keyword)
     for i in range(20):
-        text = ('이름 : ' + searchResult[i]['title'] +'\n설명 : ' + searchResult[i]['description'] + '\n전화 번호 : '
-                + searchResult[i]['telephone'] + '\n주소 : ' + searchResult[i]['address'])
+        text = ('[' + str(i) + '] 이름 : ' + searchResult[i]['title'] +'\n설명 : ' + searchResult[i]['description'] +
+                '\n전화 번호 : '+ searchResult[i]['telephone'] + '\n주소 : ' + searchResult[i]['address'])
         NSearchResultTxt.append(text)
     for i in range(7):
         NSearchButtons[i].configure(text=NSearchResultTxt[i])
+
+
+
 
 
 def coordinateConverter(e,n):
