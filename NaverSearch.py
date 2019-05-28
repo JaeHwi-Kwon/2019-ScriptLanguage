@@ -165,6 +165,12 @@ def NaverSearchfunc():
         NSearchButtons[i].configure(text=NSearchResultTxt[i])
 
 
+def coordinateConverter(e,n):
+    e = e/100
+    n = n/100
+    return e,n
+
+
 #while True:
 #    searchkwrd = input('키워드 입력 : ')
 #    datalist= getNaverSearchData(searchkwrd)
