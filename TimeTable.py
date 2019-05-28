@@ -46,7 +46,10 @@ def GetTimeTable(ID, day, way):
     list = dataTree.getiterator('item')
     x = 0
     for item in list:
-        if x > page * 30 and x < (page + 1) * 30:
+        if x == 0:
+            table.append(item.findtext('endSubwayStationNm') + ' 행')
+            table.append('')
+        if x > page * 25 and x < (page + 1) * 25:
             time = item.findtext('depTime')
             table.append(time)
         x+=1

@@ -8,6 +8,7 @@ from xml.etree import ElementTree
 
 import TimeTable
 import NaverSearch
+import Map
 
 import http.client
 
@@ -45,10 +46,10 @@ class App:
         frameList = Frame(frameLeft,borderwidth=5, bg='azure')
         frameSearch.pack(side=TOP, fill=BOTH)
         frameList.pack(side=BOTTOM)
-        frameMap = Frame(win, borderwidth=5, relief=SUNKEN)
+        self.frameMap = Frame(win, borderwidth=5, relief=SUNKEN, bg='azure')
         self.framePlace = Frame(win, borderwidth=5, relief=SUNKEN)
         self.frameTime = Frame(win, borderwidth=5, relief=SUNKEN)
-        Tap.add(frameMap, text='    지도    ')
+        Tap.add(self.frameMap, text='    지도    ')
         Tap.add(self.framePlace, text='  주변검색  ')
         Tap.add(self.frameTime, text='   시간표   ')
 
@@ -73,7 +74,7 @@ class App:
         #오른쪽 프레임
         TimeTable.initTimeTable(self.frameTime) #시간표 초기화
         NaverSearch.NSearchInit(self.framePlace)
-
+        Map.InitMapPage(self.frameMap)
 
         self.stationList = []
 
@@ -132,6 +133,8 @@ class App:
 
 
     def Updata_Timetable(self):
+        TimeTable.page = 0
         TimeTable.UpdateTimeTable(self.stationList[self.listBox.curselection()[0]][1])
+
 
 App()
