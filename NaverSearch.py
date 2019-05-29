@@ -122,20 +122,33 @@ def getXYandSentToNMap(text):
     num = int(strs[0])
     x = int(searchResult[num]['mapx'])
     y = int(searchResult[num]['mapy'])
-    NaverMaps.NMapRender(x,y)
+    NaverMaps.NMapRender(x, y)
 
 
 def NSearchInit(frameName):
-    global Nsearch, NSearchButtons
+    global Nsearch, NSearchButtons,scrollvalue
     Nsearch = Entry(frameName, width=64)
     Nsearch.grid(row=0, column=0)
     Button(frameName, text='검색', command=NaverSearchfunc).grid(row=0, column=1)
     resultFrame = Frame(frameName, borderwidth=5, relief=RIDGE)
     resultFrame.grid(row=1, column=0)
+    NSearchButtons.append(Button(resultFrame, text='', width=62,
+                                command=lambda: getXYandSentToNMap(NSearchButtons[0]['text'])))
+    NSearchButtons.append(Button(resultFrame, text='', width=62,
+                                command=lambda: getXYandSentToNMap(NSearchButtons[1]['text'])))
+    NSearchButtons.append(Button(resultFrame, text='', width=62,
+                                command=lambda: getXYandSentToNMap(NSearchButtons[2]['text'])))
+    NSearchButtons.append(Button(resultFrame, text='', width=62,
+                                command=lambda: getXYandSentToNMap(NSearchButtons[3]['text'])))
+    NSearchButtons.append(Button(resultFrame, text='', width=62,
+                                command=lambda: getXYandSentToNMap(NSearchButtons[4]['text'])))
+    NSearchButtons.append(Button(resultFrame, text='', width=62,
+                                command=lambda: getXYandSentToNMap(NSearchButtons[5]['text'])))
+    NSearchButtons.append(Button(resultFrame, text='', width=62,
+                                command=lambda: getXYandSentToNMap(NSearchButtons[6]['text'])))
     for i in range(7):
-        NSearchButtons.append(Button(resultFrame, text='', width=62,
-                                     command=lambda: getXYandSentToNMap(NSearchButtons[i]['text'])))
         NSearchButtons[i].pack()
+    print(NSearchButtons)
     Button(frameName, command=ScrollUp, text='▲').place(x=460, y=200)
     Button(frameName, command=ScrollDown, text='▼').place(x=460, y=300)
 
@@ -154,7 +167,8 @@ def ScrollUp():
     scrollvalue -= 1
     scrollvalue = clamp(0, scrollvalue, 13)
     for i in range(7):
-        NSearchButtons[i].configure(text=NSearchResultTxt[i+scrollvalue])
+        NSearchButtons[i].configure(text=NSearchResultTxt[i+scrollvalue],
+                                    command=lambda: getXYandSentToNMap(NSearchButtons[i]['text']))
 
 
 def ScrollDown():
@@ -162,7 +176,8 @@ def ScrollDown():
     scrollvalue += 1
     scrollvalue = clamp(0, scrollvalue, 13)
     for i in range(7):
-        NSearchButtons[i].configure(text=NSearchResultTxt[i + scrollvalue])
+        NSearchButtons[i].configure(text=NSearchResultTxt[i + scrollvalue],
+                                    command=lambda: getXYandSentToNMap(NSearchButtons[i]['text']))
 
 
 def NaverSearchfunc():
@@ -177,15 +192,6 @@ def NaverSearchfunc():
         NSearchResultTxt.append(text)
     for i in range(7):
         NSearchButtons[i].configure(text=NSearchResultTxt[i])
-
-
-
-
-
-def coordinateConverter(e,n):
-    e = e/100
-    n = n/100
-    return e,n
 
 
 #while True:

@@ -12,7 +12,6 @@ from tkinter import *
 conn = None
 client_id = 'zcm64uebro'
 client_secret = 'Xfz9zRHcqSuvlCko2ggLQw3FoOYVYNRIOpMOrrxW'
-server = 'https://naveropenapi.apigw.ntruss.com'
 CRS = 'NHN:128'
 Height = 550
 Width = 485
@@ -28,17 +27,16 @@ def userURLBuilder(url,**user):
     return str
 
 
-def connectOPpenApiServer():
-    global conn, server
-    conn = HTTPSConnection(server)
-    conn.set_debuglevel(1)
-
+def SetNMapMarker(x, y):
+    marker = 'type:d|size:mid|pos:' + str(x) + '%20' + str(y)
+    return marker
 
 def getMapDataFromCoordinate(x, y):
     coordinate = str(x) + ',' + str(y)
+    marker = SetNMapMarker(x,y)
     global server, conn, client_id, client_secret, CRS, Height, Width, LEVEL
     url = userURLBuilder('https://naveropenapi.apigw.ntruss.com/map-static/v2/raster', crs=CRS, h=str(Height), w=str(Width),
-                         level=str(LEVEL), center=coordinate)
+                         level=str(LEVEL), center=coordinate, markers=marker)
     request = urllib.request.Request(url)
     request.add_header("X-NCP-APIGW-API-KEY-ID",client_id)
     request.add_header("X-NCP-APIGW-API-KEY",client_secret)
@@ -74,7 +72,7 @@ def NMapInit(frameName):
     label = Label(frameName,width=Width,height=Height)
     label.image = NMapimage
     label.configure(image=NMapimage)
-    label.place(x=0,y=0)
+    label.place(x=0, y=0)
 
 #mapx = 310269
 #mapy = 551875
