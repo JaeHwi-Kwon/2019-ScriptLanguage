@@ -6,6 +6,7 @@ from xml.etree import ElementTree
 
 from tkinter import *
 from tkinter import ttk
+from tkinter.font import *
 
 
 
@@ -58,23 +59,24 @@ def GetTimeTable(ID, day, way):
 
 def initTimeTable(frame):
     global timebox, daysbox, waybox
+    font = Font(family='맑은 고딕', size=12, weight='bold')
 
-    Button(frame, text='이메일로 보내기', command=MailWindow).pack(side=RIGHT)
+    Button(frame, text='이메일로 보내기', font=font, command=MailWindow).pack(side=RIGHT)
 
     buttonframe = Frame(frame)
     buttonframe.pack(side=BOTTOM)
-    Button(buttonframe, width=5, text='->',bg='DarkOrange1', command=PageUp).pack(side=RIGHT,fill=BOTH)
-    Button(buttonframe, width=5, text='<-',bg='DarkOrange1', command=PageDown).pack(fill=BOTH)
+    Button(buttonframe, width=5, text='->', font=font,bg='DarkOrange1', command=PageUp).pack(side=RIGHT,fill=BOTH)
+    Button(buttonframe, width=5, text='<-', font=font,bg='DarkOrange1', command=PageDown).pack(fill=BOTH)
     timebox = Text(frame, state='disabled', width=50, height=28)
     timebox.pack(side=BOTTOM)
 
 
     v = ['평일', '토요일', '일요일']
-    daysbox = ttk.Combobox(frame, values=v, width=7, state='readonly')
+    daysbox = ttk.Combobox(frame,font=font, values=v, width=7, state='readonly')
     daysbox.place(x=100, y=20)
     daysbox.current(0)
     v = ['상행', '하행']
-    waybox = ttk.Combobox(frame, values=v, width=7, state='readonly')
+    waybox = ttk.Combobox(frame,font=font, values=v, width=7, state='readonly')
     waybox.place(x=200, y=20)
     waybox.current(0)
 

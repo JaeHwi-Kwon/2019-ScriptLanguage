@@ -27,11 +27,13 @@ class App:
 
     def __init__(self):
         win = Tk()
-        win.geometry("800x600")
+        win.geometry("1000x700")
         win.resizable(False, False)
         win.configure(bg='SeaGreen3')
 
         Titlefont = Font(family='맑은 고딕', size=20, weight='bold')
+        midfont = Font(family='맑은 고딕', size=12, weight='bold')
+        smolfont = Font(family='맑은 고딕', size=12)
         style = ttk.Style()
         style.theme_create("my", settings={
             "TNotebook": {"configure": { 'background':'SeaGreen3'}},
@@ -42,15 +44,15 @@ class App:
 
 
         #전체 틀 초기화
-        Tap = ttk.Notebook(win, width=500,height=600)
+        Tap = ttk.Notebook(win, width=700,height=700)
         Tap.pack(side=RIGHT)
         frameLeft = Frame(win,bg='SeaGreen3')
         Label(frameLeft, text='여기가 어디역', font=Titlefont, height=3).pack(side=TOP)
         frameLeft.pack(side=LEFT, fill=BOTH, padx=5, pady=5)
         frameSearch = Frame(frameLeft, bg='SeaGreen3')
         frameList = Frame(frameLeft,borderwidth=5, bg='azure')
-        frameSearch.pack(side=TOP, fill=BOTH)
         frameList.pack(side=BOTTOM)
+        frameSearch.pack(side=BOTTOM)
         self.frameMap = Frame(win, borderwidth=5)
         self.frameNMaps = Frame(win,borderwidth=5)
         self.framePlace = Frame(win, borderwidth=5)
@@ -62,16 +64,16 @@ class App:
 
 
         #왼쪽 프레임
-        self.input = Entry(frameSearch, width=24)
+        self.input = Entry(frameSearch,font=midfont, width=15)
         self.input.grid(row=1, column=0)
         self.input.bind('<Return>', self.Search)
-        Button(frameSearch,text='   검색   ',command=self.Search).grid(row=1, column=1)
-        self.linebox = ttk.Combobox(frameSearch, values=v, state='readonly', width=8)
+        Button(frameSearch,text='   검색   ',font=midfont, command=self.Search).grid(row=1, column=1)
+        self.linebox = ttk.Combobox(frameSearch,font=midfont, values=v, state='readonly', width=8)
         self.linebox.grid(row=2, column=0)
-        Button(frameSearch, text='노선 선택', command=self.SelectLine).grid(row=2,column=1)
+        Button(frameSearch, text='노선 선택',font=midfont, command=self.SelectLine).grid(row=2,column=1)
 
         scrollbar = Scrollbar(frameList)
-        self.listBox = Listbox(frameList,selectmode='extended', width=40,height=20,yscrollcommand=scrollbar.set)
+        self.listBox = Listbox(frameList,font=smolfont, selectmode='extended', width=80,height=20,yscrollcommand=scrollbar.set)
         scrollbar.pack(side=RIGHT,fill='y')
         self.listBox.pack(side=LEFT)
         self.listBox.bind('<Double-Button-1>',self.SelectList)

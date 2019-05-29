@@ -15,12 +15,15 @@ def InitMapPage(frame):
     s = Image.open("Linemap.jpg")
     s1 = s.resize((600,500))
     seoulmap = ImageTk.PhotoImage(s1)
-    img = Label(frame, width=450,height=450)
+    img = Label(frame, width=450,height=450, bg='white')
     img.image = seoulmap
     img.configure(image=seoulmap)
     img.place(x=0,y=0)
 
-    img.bind_all("<Key>", move)
+    img.bind_all("<Up>", move)
+    img.bind_all("<Down>", move)
+    img.bind_all("<Left>", move)
+    img.bind_all("<Right>", move)
 
     buttonfont = Font(family='맑은 고딕', size=12, weight='bold')
 
@@ -34,7 +37,7 @@ def UpdateMapPage():
     seoulmap = ImageTk.PhotoImage(s1)
     img.image = seoulmap
     img.configure(image=seoulmap)
-    print(scale, x, y)
+    #print(scale, x, y)
 
 
 def sizeDown():
