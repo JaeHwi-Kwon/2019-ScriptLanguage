@@ -17,6 +17,7 @@ waybox = None   #방향 선택
 
 page = 0        #보는 페이지
 now_station = None  #선택한 역
+total = 0       #시간표 개수
 
 mailadd = None  #메일주소 입력창
 lastmail = None #메일주소
@@ -28,6 +29,8 @@ mails = ['@gmail.com','@naver.com','@daum.net']
 ###############
 
 def GetTimeTable(ID, day, way):
+    global total
+
     key = 'e20GlP6AHkpkkdAr0AYT50r6zfv%2Fgj8KNbomL7RzhiSCSxpFb0vhZgYU7DADHoto16Zxg7xK01%2BCd69yoAssag%3D%3D'
     url = 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getSubwaySttnAcctoSchdulList'
     queryParams = '?' + 'ServiceKey=' + key + '&subwayStationId=' + quote_plus(ID)
@@ -45,6 +48,8 @@ def GetTimeTable(ID, day, way):
     table = []
 
     list = dataTree.getiterator('item')
+    #total = dataTree.findtext('totalCount')
+
     x = 0
     for item in list:
         if x == 0:
@@ -97,7 +102,8 @@ def UpdateTimeTable(station):
 
 def PageUp():
     global page
-    page += 1
+    if page*25 < total:
+        page += 1
     UpdateTimeTable(now_station)
 
 def PageDown():
