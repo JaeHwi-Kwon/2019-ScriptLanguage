@@ -18,6 +18,7 @@ waybox = None   #방향 선택
 page = 0        #보는 페이지
 now_station = None  #선택한 역
 total = 0       #시간표 개수
+dataTree = None     #데이터
 
 mailadd = None  #메일주소 입력창
 lastmail = None #메일주소
@@ -29,26 +30,30 @@ mails = ['@gmail.com','@naver.com','@daum.net']
 ###############
 
 def GetTimeTable(ID, day, way):
-    global total
-
-    key = 'e20GlP6AHkpkkdAr0AYT50r6zfv%2Fgj8KNbomL7RzhiSCSxpFb0vhZgYU7DADHoto16Zxg7xK01%2BCd69yoAssag%3D%3D'
-    url = 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getSubwaySttnAcctoSchdulList'
-    queryParams = '?' + 'ServiceKey=' + key + '&subwayStationId=' + quote_plus(ID)
-    queryParams +='&dailyTypeCode=' + quote_plus(day)
-    queryParams +='&upDownTypeCode=' + quote_plus(way)
-    queryParams +='&pageNo=' + '1'
-    queryParams +='&numOfRows=' + '300'
-
-    req = Request(url + queryParams)
-    req.get_method = lambda: 'GET'
-    res_body = urlopen(req).read()
-    print(res_body)
-    dataTree = ElementTree.fromstring(res_body)
+    global total, dataTree
 
     table = []
 
+    if total == 0:
+        key = 'e20GlP6AHkpkkdAr0AYT50r6zfv%2Fgj8KNbomL7RzhiSCSxpFb0vhZgYU7DADHoto16Zxg7xK01%2BCd69yoAssag%3D%3D'
+        url = 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getSubwaySttnAcctoSchdulList'
+        queryParams = '?' + 'ServiceKey=' + key + '&subwayStationId=' + quote_plus(ID)
+        queryParams +='&dailyTypeCode=' + quote_plus(day)
+        queryParams +='&upDownTypeCode=' + quote_plus(way)
+        queryParams +='&pageNo=' + '1'
+        queryParams +='&numOfRows=' + '300'
+
+        req = Request(url + queryParams)
+        req.get_method = lambda: 'GET'
+        res_body = urlopen(req).read()
+        print(res_body)
+        dataTree = ElementTree.fromstring(res_body)
+
+        total = int(dataTree.find("body").findtext('totalCount'))
+        print(total)
+
     list = dataTree.getiterator('item')
-    #total = dataTree.findtext('totalCount')
+
 
     x = 0
     for item in list:
@@ -102,7 +107,7 @@ def UpdateTimeTable(station):
 
 def PageUp():
     global page
-    if page*25 < total:
+    if page < total//25:
         page += 1
     UpdateTimeTable(now_station)
 
