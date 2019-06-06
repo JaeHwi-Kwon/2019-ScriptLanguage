@@ -165,7 +165,65 @@ def SendMail():
         tkinter.messagebox.showerror('전송 실패','메일을 보내는데 실패하였습니다')
 
 
+def GetTimeTableAll(ID, day):
+    global total, dataTree
 
+    table = []
+
+    key = 'e20GlP6AHkpkkdAr0AYT50r6zfv%2Fgj8KNbomL7RzhiSCSxpFb0vhZgYU7DADHoto16Zxg7xK01%2BCd69yoAssag%3D%3D'
+    url = 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getSubwaySttnAcctoSchdulList' + '?ServiceKey=' + key + '&subwayStationId=' + quote_plus(ID) + '&dailyTypeCode=' + quote_plus(day)
+    queryParams ='&upDownTypeCode=' + quote_plus('U')
+    queryParams +='&pageNo=' + '1' + '&numOfRows=' + '300'
+
+    req = Request(url + queryParams)
+    req.get_method = lambda: 'GET'
+    res_body = urlopen(req).read()
+    print(res_body)
+    dataTree = ElementTree.fromstring(res_body)
+
+
+    ulist = dataTree.getiterator('item')
+
+    queryParams = '&upDownTypeCode=' + quote_plus('D')
+    queryParams += '&pageNo=' + '1' + '&numOfRows=' + '300'
+
+    req = Request(url + queryParams)
+    req.get_method = lambda: 'GET'
+    res_body = urlopen(req).read()
+    print(res_body)
+    dataTree = ElementTree.fromstring(res_body)
+
+    dlist = dataTree.getiterator('item')
+
+    x = 0
+    for i, j in zip(ulist, dlist):
+        if x == 0:
+            table.append(i.findtext('endSubwayStationNm') + ' 행' + '    ' + j.findtext('endSubwayStationNm') + '행')
+            table.append('')
+        else:
+            time = i.findtext('depTime') +'     '+ j.findtext('depTime')
+            table.append(time)
+        x+=1
+
+    return table
+
+def changeToID(name):
+    key = 'e20GlP6AHkpkkdAr0AYT50r6zfv%2Fgj8KNbomL7RzhiSCSxpFb0vhZgYU7DADHoto16Zxg7xK01%2BCd69yoAssag%3D%3D'
+    url = 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getKwrdFndSubwaySttnList'
+    queryParams = '?' + 'ServiceKey=' + key + '&subwayStationName=' + quote_plus(name)
+
+    req = Request(url + queryParams)
+    req.get_method = lambda: 'GET'
+    res_body = urlopen(req).read()
+    print(res_body)
+    dataTree = ElementTree.fromstring(res_body)
+
+    namelist = dataTree.getiterator('item')
+    id = ''
+    for item in namelist:
+        id = item.findtext('subwayStationId')
+        break
+    return id
 
 
 if __name__ == '__main__':
