@@ -70,6 +70,9 @@ def GetTimeTable(ID, day, way):
 def initTimeTable(frame):
     global timebox, daysbox, waybox
     font = Font(family='맑은 고딕', size=12, weight='bold')
+    bgimg = PhotoImage('bak.png')
+    Label(frame, image=bgimg, bg='black', width=600,height=600).place(x=0,y=0)
+
 
     Button(frame, text='이메일로 보내기', font=font, command=MailWindow).pack(side=RIGHT)
 

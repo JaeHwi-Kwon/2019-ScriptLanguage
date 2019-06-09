@@ -37,7 +37,7 @@ class App:
         style = ttk.Style()
         style.theme_create("my", settings={
             "TNotebook": {"configure": { 'background':'SeaGreen3'}},
-            "TNotebook.Tab": {"configure": {"background": 'SeaGreen2', 'font':('맑은 고딕', '15', 'bold')},
+            "TNotebook.Tab": {"configure": {"background": 'SeaGreen2', 'font':('맑은 고딕', '18', 'bold')},
                         "map": {"background": [("selected", 'DarkOrange1')]}}})
 
         style.theme_use("my")
