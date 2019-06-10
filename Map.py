@@ -9,6 +9,7 @@ scale = 0   # 1- 7단계
 x, y = 0, 0 # 피봇위치
 s = None
 img = None
+olde = None
 
 def InitMapPage(frame):
     global s, img
@@ -24,6 +25,7 @@ def InitMapPage(frame):
     img.bind_all("<Down>", move)
     img.bind_all("<Left>", move)
     img.bind_all("<Right>", move)
+    img.bind("<B1-Motion>",mousemove)
 
     buttonfont = Font(family='맑은 고딕', size=12, weight='bold')
 
@@ -60,4 +62,14 @@ def move(e):
         x = min(x+20, scale*230)
     elif e.keysym == 'Left' and x > 0:
         x -= 20
+    UpdateMapPage()
+
+def mousemove(e):
+    global x, y, olde
+    if olde != None:
+        dx, dy = e.x - olde.x, e.y - olde.y
+        x = min(x-dx, scale*230)
+        y = min(y-dy, scale*190)
+        print(dx, dy)
+    olde = e
     UpdateMapPage()

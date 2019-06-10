@@ -7,7 +7,7 @@ from xml.etree import ElementTree
 from tkinter import *
 from tkinter import ttk
 from tkinter.font import *
-
+from PIL import Image, ImageTk
 
 
 ###############
@@ -28,6 +28,8 @@ w = {'상행':'U', '하행':'D'}
 mails = ['@gmail.com','@naver.com','@daum.net']
 
 ###############
+im = None
+
 
 def GetTimeTable(ID, day, way):
     global total, dataTree
@@ -68,10 +70,12 @@ def GetTimeTable(ID, day, way):
     return table
 
 def initTimeTable(frame):
-    global timebox, daysbox, waybox
+    global timebox, daysbox, waybox, im
     font = Font(family='맑은 고딕', size=12, weight='bold')
-    bgimg = PhotoImage('bak.png')
-    Label(frame, image=bgimg, bg='black', width=600,height=600).place(x=0,y=0)
+    bgimg = Image.open('bak.png')
+    img = bgimg.resize((700, 700))
+    im = ImageTk.PhotoImage(img)
+    Label(frame, image=im, bg='black', width=700, height=700).place(x=-5, y=-5)
 
 
     Button(frame, text='이메일로 보내기', font=font, command=MailWindow).pack(side=RIGHT)
