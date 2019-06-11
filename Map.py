@@ -34,12 +34,12 @@ def InitMapPage(frame):
 
 def UpdateMapPage():
     global img
-    s1 = s.resize((720+scale*240, 700+scale*185))
+    s1 = s.resize((740+scale*240, 700+scale*185))
     s1 = s1.crop((x,y,x+700,y+700))
     seoulmap = ImageTk.PhotoImage(s1)
     img.image = seoulmap
     img.configure(image=seoulmap)
-    print(scale, x, y)
+    #print(scale, x, y)
 
 
 def sizeDown():
@@ -66,10 +66,13 @@ def move(e):
 
 def mousemove(e):
     global x, y, olde
+
     if olde != None:
         dx, dy = e.x - olde.x, e.y - olde.y
-        x = min(x-dx, scale*230)
-        y = min(y-dy, scale*190)
+        if abs(dx) + abs(dy) > 100:
+            dx,dy=0,0
+        x = max(0, min(x-dx, scale*230))
+        y = max(0, min(y-dy, scale*190))
         print(dx, dy)
     olde = e
     UpdateMapPage()
