@@ -75,7 +75,7 @@ def initTimeTable(frame):
     bgimg = Image.open('bak.png')
     img = bgimg.resize((700, 700))
     im = ImageTk.PhotoImage(img)
-    Label(frame, image=im, bg='black', width=700, height=700).place(x=-5, y=-5)
+    Label(frame, image=im, width=700, height=700).place(x=-5, y=-5)
 
 
     Button(frame, text='이메일로 보내기', font=font, command=MailWindow).pack(side=RIGHT)

@@ -54,7 +54,7 @@ class App:
         frameList = Frame(frameLeft,borderwidth=5, bg='azure')
         frameList.pack(side=BOTTOM)
         frameSearch.pack(side=BOTTOM)
-        self.frameMap = Frame(win, borderwidth=5)
+        self.frameMap = Frame(win, borderwidth=5,bg='DarkOrange1')
         self.frameNMaps = Frame(win,borderwidth=5)
         self.framePlace = Frame(win, borderwidth=5)
         self.frameTime = Frame(win, borderwidth=5)
@@ -120,6 +120,7 @@ class App:
         print(self.stationList[a])
         #여기다 오른쪽 탭 갱신하는 함수 호출하면 돼
         self.Updata_Timetable()
+        NaverSearch.now_station = self.stationList[a][0]
 
     def SelectLine(self, event=None):
         i = self.linebox.get()

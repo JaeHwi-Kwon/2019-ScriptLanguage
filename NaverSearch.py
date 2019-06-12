@@ -26,6 +26,7 @@ NSearchButtons = []
 NSearchResultTxt = []
 scrollvalue = 0
 searchResult = []
+now_station = None
 #tkinter values end
 
 
@@ -184,7 +185,7 @@ def NaverSearchfunc():
     global Nsearch, NSearchResultTxt, scrollvalue, searchResult
     NSearchResultTxt = []
     scrollvalue = 0
-    keyword = Nsearch.get()
+    keyword = now_station +' '+ Nsearch.get()
     searchResult = getNaverSearchData(keyword)
     for i in range(20):
         text = ('[' + str(i) + '] 이름 : ' + searchResult[i]['title'] +'\n설명 : ' + searchResult[i]['description'] +
