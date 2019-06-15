@@ -185,14 +185,23 @@ def NaverSearchfunc():
     global Nsearch, NSearchResultTxt, scrollvalue, searchResult
     NSearchResultTxt = []
     scrollvalue = 0
-    keyword = now_station +' '+ Nsearch.get()
+    if now_station != None:
+        keyword = now_station + ' ' + Nsearch.get()
+    else:
+        keyword = Nsearch.get()
     searchResult = getNaverSearchData(keyword)
     for i in range(20):
         text = ('[' + str(i) + '] 이름 : ' + searchResult[i]['title'] +'\n설명 : ' + searchResult[i]['description'] +
-                '\n전화 번호 : '+ searchResult[i]['telephone'] + '\n주소 : ' + searchResult[i]['address'])
+                '\n전화 번호 : ' + searchResult[i]['telephone'] + '\n주소 : ' + searchResult[i]['address'])
         NSearchResultTxt.append(text)
+        if searchResult[i] == searchResult[-1]:
+            break
     for i in range(7):
         NSearchButtons[i].configure(text=NSearchResultTxt[i])
+        if searchResult[i] == searchResult[-1]:
+            for j in range(i + 1, 7):
+                NSearchButtons[i].configure(text='')
+            break
 
 
 #while True:

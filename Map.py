@@ -29,8 +29,8 @@ def InitMapPage(frame):
 
     buttonfont = Font(family='맑은 고딕', size=12, weight='bold')
 
-    Button(frame, text=' ＋ ',font=buttonfont, bg='DarkOrange1', command=sizeDown).pack(side=RIGHT, anchor='s')
-    Button(frame, text=' － ',font=buttonfont, bg='DarkOrange1', command=sizeUp).pack(side=RIGHT, anchor='s')
+    Button(frame, text=' ＋ ', font=buttonfont, bg='DarkOrange1', command=sizeDown).pack(side=RIGHT, anchor='s')
+    Button(frame, text=' － ', font=buttonfont, bg='DarkOrange1', command=sizeUp).pack(side=RIGHT, anchor='s')
 
 def UpdateMapPage():
     global img
@@ -44,7 +44,7 @@ def UpdateMapPage():
 
 def sizeDown():
     global scale
-    scale = min(scale +1, 7)
+    scale = min(scale + 1, 7)
     UpdateMapPage()
 
 def sizeUp():
