@@ -15,8 +15,8 @@ canvas = None
 
 def initGraph(frame):
     global canvas
-    canvas = Canvas(frame,width=600,height=500, bg='white')
-    canvas.pack()
+    canvas = Canvas(frame,height=500, bg='white')
+    canvas.pack(fill='x')
     bframe = Frame(frame,bg='black')
     bframe.pack( fill='x')
     line = ttk.Combobox(bframe, values=v,state='readonly')
@@ -66,13 +66,22 @@ def nextbutton():
     h += 1
 
 def drowGraph():
-    bt = 400
+    mx = max(data)
+    tp = 50
+    bt = 400 +tp
     lt = 100
 
-    for i in range(25):
-        x = i*20
-        y = 200
-        canvas.create_line(x,y,x+20,y)
+    canvas.delete('all')
+    canvas.create_line(lt,tp,lt,bt,lt+500,bt, tag='d')
+
+    canvas.create_text(lt-30,bt-380, text=str(mx))
+
+    for i in range(23):
+        x = i*21 + lt + 30
+        y = bt - data[i]*380//mx
+        y2 = bt - data[i+1]*380//mx
+        canvas.create_line(x,y,x+21,y2, tag='d')
+        canvas.create_text(x,bt+10, text=str((i+4)%25))
 
     pass
 
