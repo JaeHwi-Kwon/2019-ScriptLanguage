@@ -102,13 +102,18 @@ def handle(msg):
         NMapTelegram(chat_id, int(text))
         del tempSearchResult[chat_id]
         return
-    if text.startswith('시간표') and len(args) > 1:
+    if text.startswith('!시간표') and len(args) > 1:
         print('시간표', args[1])
         replyData(args[1], chat_id, args[2])
-    elif text.startswith('지역검색') and len(args) > 1:
+    elif text.startswith('!시설검색') and len(args) > 1:
         NSearchTelegram(chat_id, args[1])
     else:
-        sendMessage(chat_id, '모르는 명령어입니다.\n시간표 [역명] [평일] [요일]')
+        sendMessage(chat_id, '모르는 명령어입니다.'
+                             '\n[명령어]'
+                             '\n01. 시간표 출력'
+                             '\n    !시간표 [역명] [평일] [요일]'
+                             '\n02. 시설 검색과 지도 받아오기'
+                             '\n    !시설검색 [시설이름]')
 
 
 if __name__=='__main__':
