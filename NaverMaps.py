@@ -46,16 +46,12 @@ def SetNMapMarker(x, y):
     marker = 'type:d|size:mid|pos:' + str(x) + '%20' + str(y)
     return marker
 
-def getMapDataFromCoordinate(x, y,isMarker):
+def getMapDataFromCoordinate(x, y,markerx=markx,markery=marky):
     coordinate = str(x) + ',' + str(y)
-    marker = SetNMapMarker(markx, marky)
+    marker = SetNMapMarker(markerx, markery)
     global server, conn, client_id, client_secret, CRS, Height, Width, LEVEL
-    if isMarker:
-        url = userURLBuilder('https://naveropenapi.apigw.ntruss.com/map-static/v2/raster', crs=CRS, h=str(Height),
-                             w=str(Width), level=str(LEVEL), center=coordinate, markers=marker)
-    else:
-        url = userURLBuilder('https://naveropenapi.apigw.ntruss.com/map-static/v2/raster', crs=CRS, h=str(Height),
-                             w=str(Width), level=str(LEVEL), center=coordinate)
+    url = userURLBuilder('https://naveropenapi.apigw.ntruss.com/map-static/v2/raster', crs=CRS, h=str(Height),
+                        w=str(Width), level=str(LEVEL), center=coordinate, markers=marker)
     request = urllib.request.Request(url)
     request.add_header("X-NCP-APIGW-API-KEY-ID",client_id)
     request.add_header("X-NCP-APIGW-API-KEY",client_secret)
@@ -81,7 +77,7 @@ def NMapRender(x, y):
             tempX, tempY = x - DIFF*(1-j), y + DIFF*(1-i)
             dataimg = getMapDataFromCoordinate(tempX, tempY, False)
             if i == 1 and j == 1:
-                dataimg = getMapDataFromCoordinate(tempX, tempY, True)
+                dataimg = getMapDataFromCoordinate(tempX, tempY, tempX, tempY)
             imgpart.append(Img.open(BytesIO(dataimg)))
 #            with open("./img/map" + str(i*3+j) + ".png", 'wb') as f:
 #                f.write(dataimg)

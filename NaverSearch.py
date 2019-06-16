@@ -2,9 +2,11 @@
 import os
 import sys
 import urllib.request
+from urllib import parse
 from http.client import HTTPSConnection
 from bs4 import BeautifulSoup as bs
 import NaverMaps
+import telegram
 
 from tkinter import *
 
@@ -30,7 +32,7 @@ now_station = None
 #tkinter values end
 
 
-def userURLBuilder(url,**user):
+def userURLBuilder(url, **user):
     str = url + '?'
     for key in user.keys():
         str += key + '=' + user[key] + '&'
@@ -95,6 +97,7 @@ def getLocalDataFromKeyword(keyword):
     if conn == None:
         connectOPpenApiServer()
     url = userURLBuilder('/v1/search/local.xml',display='20',start='1',query=keyword)
+    print(url)
     conn.request('GET', url, None, {'X-Naver-Client-Id':client_id,'X-Naver-Client-Secret': client_secret})
     req = conn.getresponse()
     print(req.status)
@@ -129,6 +132,22 @@ def getXYandSentToNMap(text):
     NaverMaps.marky = y
     NaverMaps.NMapRender(x, y)
 
+
+def NSearchTelegram(user, keyword):
+    facilities = getLocalDataFromKeyword(keyword)
+    reply = ''
+    cnt = 1
+    for data in facilities:
+        reply += '[' + str(cnt) + '] '
+        reply += data['title'] + '\n'
+        reply += data['description'] + '\n'
+        reply += data['telephone'] + '\n'
+        reply += data['address']
+        telegram.sendMessage(user, reply)
+        reply = ''
+        cnt += 1
+    reply = '지도를 표시하고 싶은 시설의 번호를 적어주십시오'
+    telegram.sendMessage(user, reply)
 
 def NSearchInit(frameName):
     global Nsearch, NSearchButtons,scrollvalue
