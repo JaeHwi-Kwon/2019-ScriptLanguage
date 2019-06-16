@@ -59,7 +59,7 @@ class App:
         self.frameNMaps = Frame(win,borderwidth=5)
         self.framePlace = Frame(win, borderwidth=5)
         self.frameTime = Frame(win, borderwidth=5)
-        self.frameGraph = Frame(win, borderwidth=5)
+        self.frameGraph = Frame(win, borderwidth=5,bg='DarkOrange1')
         Tap.add(self.frameMap, text='   노선도   ')
         Tap.add(self.frameNMaps, text='    지도    ')
         Tap.add(self.framePlace, text='  주변검색  ')
