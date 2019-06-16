@@ -70,7 +70,7 @@ def mousemove(e):
     if olde != None:
         dx, dy = e.x - olde.x, e.y - olde.y
         if abs(dx) + abs(dy) > 100:
-            dx,dy=0,0
+            dx, dy = 0, 0
         x = max(0, min(x-dx, scale*230))
         y = max(0, min(y-dy, scale*190))
         print(dx, dy)

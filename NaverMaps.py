@@ -21,6 +21,7 @@ Width = 700
 LEVEL = 14
 DIFF = 2660
 mapx, mapy = 287975, 527209
+markx,marky = 287975, 527209
 
 # tkinter img value
 label = None
@@ -29,7 +30,7 @@ img = None
 display = None
 
 #command value
-x, y = 0, 0
+x, y = 700, 700
 old_event = None
 #vlues end
 
@@ -47,7 +48,7 @@ def SetNMapMarker(x, y):
 
 def getMapDataFromCoordinate(x, y,isMarker):
     coordinate = str(x) + ',' + str(y)
-    marker = SetNMapMarker(x, y)
+    marker = SetNMapMarker(markx, marky)
     global server, conn, client_id, client_secret, CRS, Height, Width, LEVEL
     if isMarker:
         url = userURLBuilder('https://naveropenapi.apigw.ntruss.com/map-static/v2/raster', crs=CRS, h=str(Height),
@@ -70,11 +71,6 @@ def getMapDataFromCoordinate(x, y,isMarker):
         return None
 
 
-def combineMapImg(imglist):
-
-    return img
-
-
 def NMapRender(x, y):
     global label, img, imgpart
 
@@ -87,10 +83,9 @@ def NMapRender(x, y):
             if i == 1 and j == 1:
                 dataimg = getMapDataFromCoordinate(tempX, tempY, True)
             imgpart.append(Img.open(BytesIO(dataimg)))
-            with open("./img/map" + str(i*3+j) + ".png", 'wb') as f:
-                f.write(dataimg)
+#            with open("./img/map" + str(i*3+j) + ".png", 'wb') as f:
+#                f.write(dataimg)
     print("이미지 병합중")
-    del(img)
     img = Img.new('RGB', (2100, 2100))
     for i in range(3):
         for j in range(3):
@@ -98,52 +93,48 @@ def NMapRender(x, y):
     img.save("./img/MAP.png")
     display = img.crop((700, 700, 1400, 1400))
 
-    NMapimage = ImageTk.PhotoImage(img)
+    NMapimage = ImageTk.PhotoImage(display)
     label.image = NMapimage
     label.configure(image=NMapimage)
     print("지도 갱신 완료")
 
 def NMapInit(frameName):
     global label, img, mapx, mapy
-    #초기값은 산기대
 
     label = Label(frameName, width=Width, height=Height)
     label.place(x=0, y=0)
 
     NMapRender(mapx, mapy)
 
-
-
-    label.bind_all("<Up>", Keyboard)
-    label.bind_all("<Down>", Keyboard)
-    label.bind_all("<Left>", Keyboard)
-    label.bind_all("<Right>", Keyboard)
     label.bind("<B1-Motion>", MouesMovement)
     label.bind("<ButtonRelease-1>", UpdateMap)
 
-def Keyboard(event):
-    print("Keyboard Func has Called!")
-    global x, y
-    if event.keysym == 'Down':
-        pass
-    elif event.keysym == 'Up' and y > 0:
-        pass
-    elif event.keysym == 'Right':
-        pass
-    elif event.keysym == 'Left' and x > 0:
-        pass
-
 
 def UpdateMap(event):
-    global x, y
-    NMapRender(x, y)
+    global x, y, old_event, mapx, mapy
+    mapx += int(((x-700))*DIFF/700)
+    mapy -= int(((y-700))*DIFF/700)
+    old_event = None
+    x, y = 700, 700
+    NMapRender(mapx, mapy)
 
 def MouesMovement(event):
     global x, y, old_event
     print("Mouse Func has Called!")
-
-
+    if old_event != None:
+        dx, dy = event.x - old_event.x, event.y - old_event.y
+        x = max(0, min(x - dx, 1400))
+        y = max(0, min(y - dy, 1400))
     old_event = event
+    MovImg()
+
+def MovImg():
+    global img, label
+    display = img.crop((x, y, x+700, y+700))
+    NMapimage = ImageTk.PhotoImage(display)
+    label.image = NMapimage
+    label.configure(image=NMapimage)
+
 
 #mapx = 310269
 #mapy = 551875

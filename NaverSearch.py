@@ -116,6 +116,8 @@ def getNaverSearchData(searchkwrd):
 
 def getXYandSentToNMap(text):
     global searchResult
+    if text == '':
+        return
     strs = []
     strs = text.split(' ')
     strs[0] = strs[0].replace('[', '')
@@ -123,6 +125,8 @@ def getXYandSentToNMap(text):
     num = int(strs[0])
     x = int(searchResult[num]['mapx'])
     y = int(searchResult[num]['mapy'])
+    NaverMaps.markx = x
+    NaverMaps.marky = y
     NaverMaps.NMapRender(x, y)
 
 
@@ -196,12 +200,14 @@ def NaverSearchfunc():
         NSearchResultTxt.append(text)
         if searchResult[i] == searchResult[-1]:
             break
+    max = None
     for i in range(7):
-        NSearchButtons[i].configure(text=NSearchResultTxt[i])
-        if searchResult[i] == searchResult[-1]:
-            for j in range(i + 1, 7):
-                NSearchButtons[i].configure(text='')
-            break
+        if max == None:
+            NSearchButtons[i].configure(text=NSearchResultTxt[i])
+            if searchResult[i] == searchResult[-1]:
+                max = i
+        else:
+            NSearchButtons[i].configure(text='')
 
 
 #while True:
