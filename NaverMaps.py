@@ -90,7 +90,7 @@ def NMapRender(x, y):
     for i in range(3):
         for j in range(3):
             img.paste(im=imgpart[i*3+j], box=(700*j + (9*i), 700*i - (7*j)))
-    img.save("./img/MAP.png")
+#    img.save("./img/MAP.png")
     display = img.crop((700, 700, 1400, 1400))
 
     NMapimage = ImageTk.PhotoImage(display)

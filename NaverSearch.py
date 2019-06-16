@@ -132,30 +132,32 @@ def getXYandSentToNMap(text):
 
 def NSearchInit(frameName):
     global Nsearch, NSearchButtons,scrollvalue
-    Nsearch = Entry(frameName, width=64)
+    Nsearch = Entry(frameName, width=90)
     Nsearch.grid(row=0, column=0)
-    Button(frameName, text='검색', command=NaverSearchfunc).grid(row=0, column=1)
+    Button(frameName, text='검색', command=NaverSearchfunc,bg='lime green').place(x=645, y=0)
     resultFrame = Frame(frameName, borderwidth=5, relief=RIDGE)
     resultFrame.grid(row=1, column=0)
-    NSearchButtons.append(Button(resultFrame, text='', width=62,
+    NSearchButtons.append(Button(resultFrame, text='', width=88, bg='azure',
                                 command=lambda: getXYandSentToNMap(NSearchButtons[0]['text'])))
-    NSearchButtons.append(Button(resultFrame, text='', width=62,
+    NSearchButtons.append(Button(resultFrame, text='', width=88, bg='azure',
                                 command=lambda: getXYandSentToNMap(NSearchButtons[1]['text'])))
-    NSearchButtons.append(Button(resultFrame, text='', width=62,
+    NSearchButtons.append(Button(resultFrame, text='', width=88, bg='azure',
                                 command=lambda: getXYandSentToNMap(NSearchButtons[2]['text'])))
-    NSearchButtons.append(Button(resultFrame, text='', width=62,
+    NSearchButtons.append(Button(resultFrame, text='', width=88, bg='azure',
                                 command=lambda: getXYandSentToNMap(NSearchButtons[3]['text'])))
-    NSearchButtons.append(Button(resultFrame, text='', width=62,
+    NSearchButtons.append(Button(resultFrame, text='', width=88, bg='azure',
                                 command=lambda: getXYandSentToNMap(NSearchButtons[4]['text'])))
-    NSearchButtons.append(Button(resultFrame, text='', width=62,
+    NSearchButtons.append(Button(resultFrame, text='', width=88, bg='azure',
                                 command=lambda: getXYandSentToNMap(NSearchButtons[5]['text'])))
-    NSearchButtons.append(Button(resultFrame, text='', width=62,
+    NSearchButtons.append(Button(resultFrame, text='', width=88, bg='azure',
                                 command=lambda: getXYandSentToNMap(NSearchButtons[6]['text'])))
-    for i in range(7):
+    NSearchButtons.append(Button(resultFrame, text='', width=88, bg='azure',
+                                command=lambda: getXYandSentToNMap(NSearchButtons[7]['text'])))
+    for i in range(8):
         NSearchButtons[i].pack()
     print(NSearchButtons)
-    Button(frameName, command=ScrollUp, text='▲').place(x=460, y=200)
-    Button(frameName, command=ScrollDown, text='▼').place(x=460, y=300)
+    Button(frameName, command=ScrollUp, text='▲', bg='lime green').place(x=650, y=200)
+    Button(frameName, command=ScrollDown, text='▼', bg='lime green').place(x=650, y=300)
 
 
 def clamp(min,x,max):   #최대, 최소값으로 제한하는 함수
@@ -170,8 +172,8 @@ def clamp(min,x,max):   #최대, 최소값으로 제한하는 함수
 def ScrollUp():
     global scrollvalue, NSearchResultTxt
     scrollvalue -= 1
-    scrollvalue = clamp(0, scrollvalue, 13)
-    for i in range(7):
+    scrollvalue = clamp(0, scrollvalue, 12)
+    for i in range(8):
         NSearchButtons[i].configure(text=NSearchResultTxt[i+scrollvalue],
                                     command=lambda: getXYandSentToNMap(NSearchButtons[i]['text']))
 
@@ -179,8 +181,8 @@ def ScrollUp():
 def ScrollDown():
     global scrollvalue, NSearchResultTxt
     scrollvalue += 1
-    scrollvalue = clamp(0, scrollvalue, 13)
-    for i in range(7):
+    scrollvalue = clamp(0, scrollvalue, 12)
+    for i in range(8):
         NSearchButtons[i].configure(text=NSearchResultTxt[i + scrollvalue],
                                     command=lambda: getXYandSentToNMap(NSearchButtons[i]['text']))
 
@@ -201,7 +203,7 @@ def NaverSearchfunc():
         if searchResult[i] == searchResult[-1]:
             break
     max = None
-    for i in range(7):
+    for i in range(8):
         if max == None:
             NSearchButtons[i].configure(text=NSearchResultTxt[i])
             if searchResult[i] == searchResult[-1]:
