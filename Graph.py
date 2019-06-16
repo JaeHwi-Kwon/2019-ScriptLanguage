@@ -6,7 +6,7 @@ from urllib.request import urlopen,Request
 from urllib.parse import quote_plus
 from xml.etree import ElementTree
 
-#import cplus
+import cplus
 
 h = 4
 v = ['1호선','2호선','3호선','4호선','5호선']
@@ -87,7 +87,7 @@ def drowGraph():
     for i in range(23):
         x = i*21 + lt + 30
         if mx != 0:
-            y = bt - data[i]*380*per//mx #cplus.calc(data[i],380,per,mx)
+            cplus.calc(data[i], 380, per, mx)
             y2 = bt - data[i+1]*380*per//mx
             canvas.create_line(x,y,x+21,y2, width=3, fill='SeaGreen3', tag='d')
         canvas.create_text(x,bt+10, text=str((i+4)%25),tag='d')

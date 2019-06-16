@@ -75,7 +75,7 @@ def NMapRender(x, y):
     for i in range(3):
         for j in range(3):
             tempX, tempY = x - DIFF*(1-j), y + DIFF*(1-i)
-            dataimg = getMapDataFromCoordinate(tempX, tempY, False)
+            dataimg = getMapDataFromCoordinate(tempX, tempY)
             if i == 1 and j == 1:
                 dataimg = getMapDataFromCoordinate(tempX, tempY, tempX, tempY)
             imgpart.append(Img.open(BytesIO(dataimg)))
