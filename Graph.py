@@ -87,7 +87,7 @@ def drowGraph():
     for i in range(23):
         x = i*21 + lt + 30
         if mx != 0:
-            cplus.calc(data[i], 380, per, mx)
+            y = bt - cplus.calc(data[i],380,per,mx)
             y2 = bt - data[i+1]*380*per//mx
             canvas.create_line(x,y,x+21,y2, width=3, fill='SeaGreen3', tag='d')
         canvas.create_text(x,bt+10, text=str((i+4)%25),tag='d')
