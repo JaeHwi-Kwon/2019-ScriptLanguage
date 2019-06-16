@@ -10,6 +10,7 @@ import TimeTable
 import NaverSearch
 import NaverMaps
 import Map
+import Graph
 
 import http.client
 
@@ -58,10 +59,12 @@ class App:
         self.frameNMaps = Frame(win,borderwidth=5)
         self.framePlace = Frame(win, borderwidth=5)
         self.frameTime = Frame(win, borderwidth=5)
+        self.frameGraph = Frame(win, borderwidth=5)
         Tap.add(self.frameMap, text='   노선도   ')
         Tap.add(self.frameNMaps, text='    지도    ')
         Tap.add(self.framePlace, text='  주변검색  ')
         Tap.add(self.frameTime, text='   시간표   ')
+        Tap.add(self.frameGraph, text='  이용정보  ')
 
 
         #왼쪽 프레임
@@ -86,6 +89,7 @@ class App:
         NaverMaps.NMapInit(self.frameNMaps)
         NaverSearch.NSearchInit(self.framePlace)
         Map.InitMapPage(self.frameMap)
+        Graph.initGraph(self.frameGraph)
 
         self.stationList = []
 
@@ -147,6 +151,6 @@ class App:
     def Updata_Timetable(self):
         TimeTable.page = 0
         TimeTable.UpdateTimeTable(self.stationList[self.listBox.curselection()[0]][1])
-
+        Graph.UpdateGraph(self.linebox.get(),self.stationList[self.listBox.curselection()[0]][0])
 
 App()
