@@ -87,15 +87,14 @@ def drowGraph():
     for i in range(23):
         x = i*21 + lt + 30
         if mx != 0:
-            y = bt - cplus.calc(data[i],380,per,mx)
-            y2 = bt - data[i+1]*380*per//mx
-            canvas.create_line(x,y,x+21,y2, width=3, fill='SeaGreen3', tag='d')
-        canvas.create_text(x,bt+10, text=str((i+4)%25),tag='d')
-
+            y = bt - cplus.calc(data[i], 380, per, mx)
+            y2 = bt - cplus.calc(data[i+1], 380, per, mx)
+            canvas.create_line(x, y, x+21, y2, width=3, fill='SeaGreen3', tag='d')
+        canvas.create_text(x, bt+10, text=str((i+4) % 25), tag='d')
 
     canvas.create_line(lt, tp, lt, bt, lt + 520, bt, width=7, arrow='both')
-    p+=1
-    if p <100:
+    p += 1
+    if p < 100:
         canvas.after(10, drowGraph)
 
 
