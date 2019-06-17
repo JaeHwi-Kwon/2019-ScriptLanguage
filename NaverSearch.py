@@ -94,8 +94,7 @@ def AllignTxtOnButton(set):     #글자들을 전부 좌측 정렬하기 위함.
 
 def getLocalDataFromKeyword(keyword):
     global server, conn, client_id, client_secret
-    if conn == None:
-        connectOPpenApiServer()
+    connectOPpenApiServer()
     url = userURLBuilder('/v1/search/local.xml',display='20',start='1',query=keyword)
     print(url)
     conn.request('GET', url, None, {'X-Naver-Client-Id':client_id,'X-Naver-Client-Secret': client_secret})
@@ -113,6 +112,8 @@ def getLocalDataFromKeyword(keyword):
 def getNaverSearchData(searchkwrd):
     encText = urllib.parse.quote(searchkwrd)
     datalist= getLocalDataFromKeyword(encText)
+    if datalist == None:
+        getNaverSearchData(searchkwrd)
     print(datalist)
     return datalist
 
