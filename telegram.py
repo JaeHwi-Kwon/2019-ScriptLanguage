@@ -100,7 +100,7 @@ def handle(msg):
         if text.startswith('취소'):
             del tempSearchResult[chat_id]
             return
-        NMapTelegram(chat_id, int(text))
+        NMapTelegram(chat_id, int(text)-1)
         del tempSearchResult[chat_id]
         return
     if text.startswith('!시간표') and len(args) > 1:
