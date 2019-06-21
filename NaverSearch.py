@@ -14,8 +14,8 @@ from tkinter import *
 #string values start
 
 conn = None
-client_id = 'xLNuUi5YIoKlaW3aytaj'
-client_secret = 'HjY8OAmwmM'
+client_id = ''
+client_secret = ''
 
 server = 'openapi.naver.com'
 searchkwrd = ''

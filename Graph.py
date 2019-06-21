@@ -31,7 +31,7 @@ def initGraph(frame):
 
 def getCard(line='4호선',station='정왕역'):
     global data
-    key = '655746787474657936305a4861426a'
+    key = ''
     url = 'http://openAPI.seoul.go.kr:8088/' +key +'/xml/CardSubwayTime/' + '1/5/' + '201901/' + quote_plus(line+'/'+station) + '/'
 
     print(url)

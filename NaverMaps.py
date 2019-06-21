@@ -11,8 +11,8 @@ from tkinter import *
 #values start
 # parsing
 conn = None
-client_id = 'zcm64uebro'
-client_secret = 'Xfz9zRHcqSuvlCko2ggLQw3FoOYVYNRIOpMOrrxW'
+client_id = ''
+client_secret = ''
 
 # map parsing value
 CRS = 'NHN:128'

@@ -18,7 +18,7 @@ from io import BytesIO
 isSearching = []
 tempSearchResult = {}
 
-TOKEN = '801539784:AAFhdzIg3gdWALMfdLWQoclKv-JMr8l2jEo'
+TOKEN = ''
 MAX_MSG_LENGTH = 300
 bot = telepot.Bot(TOKEN)
 

@@ -98,7 +98,7 @@ class App:
 
     def Search(self, event=None):   #역이름 검색
         keyword = self.input.get()
-        key = 'e20GlP6AHkpkkdAr0AYT50r6zfv%2Fgj8KNbomL7RzhiSCSxpFb0vhZgYU7DADHoto16Zxg7xK01%2BCd69yoAssag%3D%3D'
+        key = ''
         url = 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getKwrdFndSubwaySttnList'
         queryParams = '?' + 'ServiceKey='+ key +'&subwayStationName=' + quote_plus(keyword)
 
@@ -129,7 +129,7 @@ class App:
     def SelectLine(self, event=None):
         i = self.linebox.get()
         print(i)
-        key = '655746787474657936305a4861426a'
+        key = ''
         url = 'http://openAPI.seoul.go.kr:8088/'+key +'/xml/SearchSTNBySubwayLineService/' +'1/100/'+ str(v.index(i)+1) +'/'
 
         req = Request(url)

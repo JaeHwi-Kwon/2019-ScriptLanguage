@@ -37,7 +37,7 @@ def GetTimeTable(ID, day, way):
     table = []
 
     if total == 0:
-        key = 'e20GlP6AHkpkkdAr0AYT50r6zfv%2Fgj8KNbomL7RzhiSCSxpFb0vhZgYU7DADHoto16Zxg7xK01%2BCd69yoAssag%3D%3D'
+        key = ''
         url = 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getSubwaySttnAcctoSchdulList'
         queryParams = '?' + 'ServiceKey=' + key + '&subwayStationId=' + quote_plus(ID)
         queryParams +='&dailyTypeCode=' + quote_plus(day)
@@ -177,7 +177,7 @@ def GetTimeTableAll(ID, day):
 
     table = []
 
-    key = 'e20GlP6AHkpkkdAr0AYT50r6zfv%2Fgj8KNbomL7RzhiSCSxpFb0vhZgYU7DADHoto16Zxg7xK01%2BCd69yoAssag%3D%3D'
+    key = ''
     url = 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getSubwaySttnAcctoSchdulList' + '?ServiceKey=' + key + '&subwayStationId=' + quote_plus(ID) + '&dailyTypeCode=' + quote_plus(day)
     queryParams ='&upDownTypeCode=' + quote_plus('U')
     queryParams +='&pageNo=' + '1' + '&numOfRows=' + '300'
@@ -215,7 +215,7 @@ def GetTimeTableAll(ID, day):
     return table
 
 def changeToID(name):
-    key = 'e20GlP6AHkpkkdAr0AYT50r6zfv%2Fgj8KNbomL7RzhiSCSxpFb0vhZgYU7DADHoto16Zxg7xK01%2BCd69yoAssag%3D%3D'
+    key = ''
     url = 'http://openapi.tago.go.kr/openapi/service/SubwayInfoService/getKwrdFndSubwaySttnList'
     queryParams = '?' + 'ServiceKey=' + key + '&subwayStationName=' + quote_plus(name)
 
